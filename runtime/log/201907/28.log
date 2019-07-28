@@ -1,0 +1,279 @@
+---------------------------------------------------------------
+[ 2019-07-28T20:01:33+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ error ] [0]类不存在:app\common\model\
+---------------------------------------------------------------
+[ 2019-07-28T20:01:44+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ error ] [0]类不存在:app\common\model\Project
+---------------------------------------------------------------
+[ 2019-07-28T20:01:59+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.007667s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001342s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' [ RunTime:0.000668s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001285s ]
+[ sql ] [ SQL ] INSERT INTO `fa_param` (`param` , `mtime`) VALUES ('{\"mobile\":\"13560488226\"}' , '2019-07-28 20:01:59') [ RunTime:0.003369s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:02:54+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.007893s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001903s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' [ RunTime:0.000715s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001176s ]
+[ sql ] [ SQL ] INSERT INTO `fa_param` (`param` , `mtime`) VALUES ('{\"mobile\":\"13560488226\"}' , '2019-07-28 20:02:54') [ RunTime:0.006028s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:03:33+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.014190s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001186s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' [ RunTime:0.000595s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001130s ]
+[ sql ] [ SQL ] INSERT INTO `fa_param` (`param` , `mobile` , `mtime`) VALUES ('{\"mobile\":\"13560488226\"}' , '' , '2019-07-28 20:03:33') [ RunTime:0.004175s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:03:38+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/param/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1564314911954
+[ sql ] [ DB ] CONNECT:[ UseTime:0.009745s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001665s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.001045s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.003460s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.001376s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001824s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fa_param` ORDER BY `id` DESC LIMIT 1 [ RunTime:0.000760s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_param` ORDER BY `id` DESC LIMIT 0,10 [ RunTime:0.000732s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:04:27+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006880s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001894s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' [ RunTime:0.000606s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001039s ]
+[ sql ] [ SQL ] INSERT INTO `fa_param` (`param` , `mobile` , `mtime`) VALUES ('{\"mobile\":\"13560488226\"}' , '13560488226' , '2019-07-28 20:04:27') [ RunTime:0.002293s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:04:30+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/param/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1564314911955
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006263s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001111s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000750s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001656s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.001516s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001308s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fa_param` ORDER BY `id` DESC LIMIT 1 [ RunTime:0.000536s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_param` ORDER BY `id` DESC LIMIT 0,10 [ RunTime:0.000550s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:04:39+08:00 ] 127.0.0.1 POST www.fa.com/admin.php/param/del/ids/15,14,13,12,11,10,9,8,7
+[ sql ] [ DB ] CONNECT:[ UseTime:0.013726s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001107s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000857s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.009869s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.000981s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001166s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_param` WHERE  `id` IN (15,14,13,12,11,10,9,8,7) [ RunTime:0.000618s ]
+[ sql ] [ SQL ] DELETE FROM `fa_param`    WHERE  `id` = 7 [ RunTime:0.001238s ]
+[ sql ] [ SQL ] DELETE FROM `fa_param`    WHERE  `id` = 8 [ RunTime:0.000771s ]
+[ sql ] [ SQL ] DELETE FROM `fa_param`    WHERE  `id` = 9 [ RunTime:0.000561s ]
+[ sql ] [ SQL ] DELETE FROM `fa_param`    WHERE  `id` = 10 [ RunTime:0.000657s ]
+[ sql ] [ SQL ] DELETE FROM `fa_param`    WHERE  `id` = 11 [ RunTime:0.000564s ]
+[ sql ] [ SQL ] DELETE FROM `fa_param`    WHERE  `id` = 12 [ RunTime:0.000566s ]
+[ sql ] [ SQL ] DELETE FROM `fa_param`    WHERE  `id` = 13 [ RunTime:0.000675s ]
+[ sql ] [ SQL ] DELETE FROM `fa_param`    WHERE  `id` = 14 [ RunTime:0.000469s ]
+[ sql ] [ SQL ] DELETE FROM `fa_param`    WHERE  `id` = 15 [ RunTime:0.000515s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_admin_log` [ RunTime:0.008555s ]
+[ sql ] [ SQL ] INSERT INTO `fa_admin_log` (`title` , `content` , `url` , `admin_id` , `username` , `useragent` , `ip` , `createtime`) VALUES ('参数管理 删除' , '{\"action\":\"del\",\"ids\":\"15,14,13,12,11,10,9,8,7\",\"params\":\"\"}' , '/admin.php/param/del/ids/15,14,13,12,11,10,9,8,7' , 1 , 'admin' , 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' , '127.0.0.1' , 1564315479) [ RunTime:0.002039s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:04:39+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/param/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1564314911956
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006128s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001799s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000756s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001068s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.000753s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001293s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fa_param` ORDER BY `id` DESC LIMIT 1 [ RunTime:0.000569s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_param` ORDER BY `id` DESC LIMIT 0,10 [ RunTime:0.000511s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:04:44+08:00 ] 127.0.0.1 POST www.fa.com/admin.php/param/del/ids/6,5
+[ sql ] [ DB ] CONNECT:[ UseTime:0.008113s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001594s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000904s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001418s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.001159s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001409s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_param` WHERE  `id` IN (6,5) [ RunTime:0.000761s ]
+[ sql ] [ SQL ] DELETE FROM `fa_param`    WHERE  `id` = 5 [ RunTime:0.001875s ]
+[ sql ] [ SQL ] DELETE FROM `fa_param`    WHERE  `id` = 6 [ RunTime:0.000596s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_admin_log` [ RunTime:0.010941s ]
+[ sql ] [ SQL ] INSERT INTO `fa_admin_log` (`title` , `content` , `url` , `admin_id` , `username` , `useragent` , `ip` , `createtime`) VALUES ('参数管理 删除' , '{\"action\":\"del\",\"ids\":\"6,5\",\"params\":\"\"}' , '/admin.php/param/del/ids/6,5' , 1 , 'admin' , 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' , '127.0.0.1' , 1564315484) [ RunTime:0.002598s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:04:44+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/param/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1564314911957
+[ sql ] [ DB ] CONNECT:[ UseTime:0.008543s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001648s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.001012s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001814s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.001063s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001539s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fa_param` ORDER BY `id` DESC LIMIT 1 [ RunTime:0.000652s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_param` ORDER BY `id` DESC LIMIT 0,10 [ RunTime:0.000905s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:04:59+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.013007s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001172s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' [ RunTime:0.000666s ]
+[ error ] [8]未定义数组索引: id
+---------------------------------------------------------------
+[ 2019-07-28T20:05:28+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012197s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001172s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' [ RunTime:0.000558s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:05:36+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.005761s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001193s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' [ RunTime:0.000495s ]
+[ error ] [8]未定义数组索引: id
+---------------------------------------------------------------
+[ 2019-07-28T20:05:52+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006360s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001473s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' [ RunTime:0.000528s ]
+[ error ] [0]致命错误: Call to a member function toArray() on array
+---------------------------------------------------------------
+[ 2019-07-28T20:05:56+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006926s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001408s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' [ RunTime:0.000899s ]
+[ error ] [0]致命错误: Call to a member function toArray() on array
+---------------------------------------------------------------
+[ 2019-07-28T20:06:24+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006327s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001315s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' [ RunTime:0.000588s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:06:31+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.007593s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001418s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' LIMIT 1 [ RunTime:0.000516s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:06:42+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010010s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001595s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' LIMIT 1 [ RunTime:0.000764s ]
+[ error ] [8]未定义数组索引: id
+---------------------------------------------------------------
+[ 2019-07-28T20:06:46+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.008779s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001496s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' LIMIT 1 [ RunTime:0.000745s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:06:52+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.013633s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001310s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' LIMIT 1 [ RunTime:0.000681s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001274s ]
+[ sql ] [ SQL ] INSERT INTO `fa_param` (`param` , `project_id` , `mobile` , `mtime`) VALUES ('{\"mobile\":\"13560488226\"}' , 1 , '13560488226' , '2019-07-28 20:06:52') [ RunTime:0.002703s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:06:54+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/param/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1564314911958
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006789s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001159s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000821s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001017s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.001082s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001782s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fa_param` ORDER BY `id` DESC LIMIT 1 [ RunTime:0.000757s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_param` ORDER BY `id` DESC LIMIT 0,10 [ RunTime:0.000739s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:06:57+08:00 ] 127.0.0.1 POST www.fa.com/admin.php/param/del/ids/16
+[ sql ] [ DB ] CONNECT:[ UseTime:0.014712s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001113s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000621s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001260s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.001167s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001198s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_param` WHERE  `id` IN (16) [ RunTime:0.000490s ]
+[ sql ] [ SQL ] DELETE FROM `fa_param`    WHERE  `id` = 16 [ RunTime:0.001487s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_admin_log` [ RunTime:0.001308s ]
+[ sql ] [ SQL ] INSERT INTO `fa_admin_log` (`title` , `content` , `url` , `admin_id` , `username` , `useragent` , `ip` , `createtime`) VALUES ('参数管理 删除' , '{\"action\":\"del\",\"ids\":\"16\",\"params\":\"\"}' , '/admin.php/param/del/ids/16' , 1 , 'admin' , 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' , '127.0.0.1' , 1564315617) [ RunTime:0.001991s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:06:57+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/param/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1564314911959
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006234s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001428s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000758s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001052s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.000757s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001186s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fa_param` ORDER BY `id` DESC LIMIT 1 [ RunTime:0.000647s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_param` ORDER BY `id` DESC LIMIT 0,10 [ RunTime:0.000712s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:07:08+08:00 ] 127.0.0.1 GET www.fa.com/test1?mobile=13560488226
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006725s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_project` [ RunTime:0.001338s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_project` WHERE  `ename` = 'test1' LIMIT 1 [ RunTime:0.000950s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001514s ]
+[ sql ] [ SQL ] INSERT INTO `fa_param` (`param` , `project_id` , `mobile` , `mtime`) VALUES ('{\"mobile\":\"13560488226\"}' , 1 , '13560488226' , '2019-07-28 20:07:08') [ RunTime:0.655463s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:07:12+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/param?ref=addtabs
+[ sql ] [ DB ] CONNECT:[ UseTime:0.008255s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:1.730421s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000786s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001117s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.001115s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:07:13+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/index/index
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006853s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001299s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000927s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001213s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.001149s ]
+[ sql ] [ SQL ] SELECT `name`,`pid` FROM `fa_auth_rule` WHERE  `status` = 'normal'  AND `ismenu` = 0  AND `name` LIKE '%/index' [ RunTime:0.000924s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:07:15+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/param?ref=addtabs
+[ sql ] [ DB ] CONNECT:[ UseTime:0.008342s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.808831s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000732s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001147s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.000878s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:07:15+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/index/index
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006643s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001742s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000895s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001220s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.000928s ]
+[ sql ] [ SQL ] SELECT `name`,`pid` FROM `fa_auth_rule` WHERE  `status` = 'normal'  AND `ismenu` = 0  AND `name` LIKE '%/index' [ RunTime:0.000811s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:07:15+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/dashboard?addtabs=1
+[ sql ] [ DB ] CONNECT:[ UseTime:0.007571s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001305s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000719s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.007591s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.000920s ]
+[ sql ] [ SQL ] SELECT `title`,`remark` FROM `fa_auth_rule` WHERE  `name` = 'dashboard' LIMIT 1 [ RunTime:0.000822s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:07:15+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/param?addtabs=1
+[ sql ] [ DB ] CONNECT:[ UseTime:0.008528s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001773s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.001255s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001928s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.001620s ]
+[ sql ] [ SQL ] SELECT `title`,`remark` FROM `fa_auth_rule` WHERE  `name` = 'param' LIMIT 1 [ RunTime:0.000944s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:07:16+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/param/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1564315636385
+[ sql ] [ DB ] CONNECT:[ UseTime:0.008933s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001651s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.001018s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001846s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.000996s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.002197s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fa_param` ORDER BY `id` DESC LIMIT 1 [ RunTime:0.000872s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_param` ORDER BY `id` DESC LIMIT 0,10 [ RunTime:0.000767s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:07:17+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/param/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1564315636386
+[ sql ] [ DB ] CONNECT:[ UseTime:0.009523s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001639s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000867s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.001682s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.001371s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001758s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fa_param` ORDER BY `id` DESC LIMIT 1 [ RunTime:0.000686s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_param` ORDER BY `id` DESC LIMIT 0,10 [ RunTime:0.000765s ]
+---------------------------------------------------------------
+[ 2019-07-28T20:07:18+08:00 ] 127.0.0.1 GET www.fa.com/admin.php/param/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1564315636387
+[ sql ] [ DB ] CONNECT:[ UseTime:0.013163s ] mysql:host=127.0.0.1;dbname=fastadmin;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_group_access` [ RunTime:0.001095s ]
+[ sql ] [ SQL ] SELECT `aga`.`uid`,`aga`.`group_id`,`ag`.`id`,`ag`.`pid`,`ag`.`name`,`ag`.`rules` FROM `fa_auth_group_access` `aga` LEFT JOIN `fa_auth_group` `ag` ON `aga`.`group_id`=`ag`.`id` WHERE  (  aga.uid='1' and ag.status='normal' ) [ RunTime:0.000581s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_auth_rule` [ RunTime:0.000983s ]
+[ sql ] [ SQL ] SELECT `id`,`pid`,`condition`,`icon`,`name`,`title`,`ismenu` FROM `fa_auth_rule` WHERE  `status` = 'normal' [ RunTime:0.000977s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `fa_param` [ RunTime:0.001197s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `fa_param` ORDER BY `id` DESC LIMIT 1 [ RunTime:0.000419s ]
+[ sql ] [ SQL ] SELECT * FROM `fa_param` ORDER BY `id` DESC LIMIT 0,10 [ RunTime:0.000435s ]

@@ -13,13 +13,7 @@ class Index extends Frontend
 
     public function index()
     {
-        return $this->view->fetch();
-    }
-
-    public function news()
-    {
-        $newslist = [];
-        return jsonp(['newslist' => $newslist, 'new' => count($newslist), 'url' => 'https://www.fastadmin.net?ref=news']);
+        return json(["hello,world"]);
     }
 
 }

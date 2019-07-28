@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"F:\www\fastadmin\public/../application/admin\view\category\index.html";i:1562338656;s:59:"F:\www\fastadmin\application\admin\view\layout\default.html";i:1562338656;s:56:"F:\www\fastadmin\application\admin\view\common\meta.html";i:1562338656;s:58:"F:\www\fastadmin\application\admin\view\common\script.html";i:1562338656;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:67:"F:\www\fastadmin\public/../application/admin\view\project\edit.html";i:1564303046;s:59:"F:\www\fastadmin\application\admin\view\layout\default.html";i:1562338656;s:56:"F:\www\fastadmin\application\admin\view\common\meta.html";i:1562338656;s:58:"F:\www\fastadmin\application\admin\view\common\script.html";i:1562338656;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -50,42 +50,40 @@
                             <!-- END RIBBON -->
                             <?php endif; ?>
                             <div class="content">
-                                <div class="panel panel-default panel-intro">
-    <div class="panel-heading">
-        <?php echo build_heading(null,FALSE); ?>
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#all" data-toggle="tab"><?php echo __('All'); ?></a></li>
-            <?php if(is_array($typeList) || $typeList instanceof \think\Collection || $typeList instanceof \think\Paginator): if( count($typeList)==0 ) : echo "" ;else: foreach($typeList as $key=>$vo): ?>
-                <li><a href="#<?php echo $key; ?>" data-toggle="tab"><?php echo $vo; ?></a></li>
-            <?php endforeach; endif; else: echo "" ;endif; ?>
-        </ul>
+                                <form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
 
-    </div>
-    <div class="panel-body">
-        <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade active in" id="one">
-                <div class="widget-body no-padding">
-                    <div id="toolbar" class="toolbar">
-                        <?php echo build_toolbar('refresh,add,edit,del'); ?>
-                        <div class="dropdown btn-group <?php echo $auth->check('category/multi')?'':'hide'; ?>">
-                            <a class="btn btn-primary btn-more dropdown-toggle btn-disabled disabled" data-toggle="dropdown"><i class="fa fa-cog"></i> <?php echo __('More'); ?></a>
-                            <ul class="dropdown-menu text-left" role="menu">
-                                <li><a class="btn btn-link btn-multi btn-disabled disabled" href="javascript:;" data-params="status=normal"><i class="fa fa-eye"></i> <?php echo __('Set to normal'); ?></a></li>
-                                <li><a class="btn btn-link btn-multi btn-disabled disabled" href="javascript:;" data-params="status=hidden"><i class="fa fa-eye-slash"></i> <?php echo __('Set to hidden'); ?></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <table id="table" class="table table-striped table-bordered table-hover" 
-                           data-operate-edit="<?php echo $auth->check('category/edit'); ?>" 
-                           data-operate-del="<?php echo $auth->check('category/del'); ?>" 
-                           width="100%">
-                    </table>
-                </div>
-            </div>
-
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><?php echo __('Name'); ?>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-name" class="form-control" name="row[name]" type="text" value="<?php echo htmlentities($row['name']); ?>">
         </div>
     </div>
-</div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><?php echo __('Desc'); ?>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-desc" class="form-control" name="row[desc]" type="text" value="<?php echo htmlentities($row['desc']); ?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><?php echo __('Ename'); ?>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-ename" class="form-control" name="row[ename]" type="text" value="<?php echo htmlentities($row['ename']); ?>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><?php echo __('Mtime'); ?>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mtime" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[mtime]" type="text" value="<?php echo $row['mtime']; ?>">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled"><?php echo __('OK'); ?></button>
+            <button type="reset" class="btn btn-default btn-embossed"><?php echo __('Reset'); ?></button>
+        </div>
+    </div>
+</form>
 
                             </div>
                         </div>
