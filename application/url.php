@@ -1,4 +1,9 @@
 <?php
 return [
-   "test1"=>"index/project",
+   "zhuogu"=>"index/project",
+   "dingfeng"=>"index/project",
+   "zhuoguivr"=>"index/project",
+   "min"=>"index/project",
+   "weimi"=>"index/project",
+   "haohua"=>"index/project",
 ];

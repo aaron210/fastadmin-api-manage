@@ -10,6 +10,7 @@ namespace app\index\controller;
 
 
 use app\common\controller\Frontend;
+use fast\Http;
 use think\Model;
 use think\Request;
 
@@ -37,13 +38,54 @@ class Project extends Frontend
             return $this->out("error");
         }
 
+        // 判断这条信息是否已经存在
+        if(isset($data['linkid'])&&!empty($data['linkid'])){
+            $MParam = Model("Param");
+            $resParam = $MParam->where(['linkid'=>$data['linkid']])->find();
+            if($resParam){
+                return $this->out("this linkid already exists");
+            }
+        }
+
+        // 获取手机信息
+        $location = $operator = $province = $city = "";
+        $mobile = isset($data['mobile']) ? $data['mobile'] : "";
+        if(!empty($mobile)){
+//            $url = "http://mobsec-dianhua.baidu.com/dianhua_api/open/location?tel=".$mobile;
+//            $ipData = Http::get($url);
+//            if(!empty($ipData)){
+//                $ipData = json_decode($ipData,true);
+//                if(isset($ipData['responseHeader']['status']) && $ipData['responseHeader']['status']==200 ){
+//                    $location  = $ipData['response'][$mobile]['location'] ?? "";
+//                    $operator  = $ipData['response'][$mobile]['detail']['operator'] ?? "";
+//                    $province  = $ipData['response'][$mobile]['detail']['province'] ?? "";
+//                    $city      = $ipData['response'][$mobile]['detail']['area'][0]['city'] ?? "";
+//                }
+//            }
+            $phoneQCellCore = substr($mobile,0,7);
+            $province = $city = $isp = $location = "";
+            $Hdcx = Model("Hdcx");
+            $lists = $Hdcx->where("phone", $phoneQCellCore)->find();
+            if ($lists) {
+                $province = $lists->province;
+                $city = $lists->city;
+                $operator = $lists->isp;
+                $location = $province . $city . $isp;
+            }
+        }
+
         // json储存
-        $Param = json_encode($data);
+        $Param = http_build_query($data , '' , '&');
         $saveData = [
             "param" => $Param,
             "project_id" => $res['id'],
-            "mobile" => isset($data['mobile']) ? $data['mobile'] : "",
-            "mtime" => date("Y-m-d H:i:s")
+            "mobile"     => isset($data['mobile']) ? $data['mobile'] : "",
+            "linkid"     => isset($data['linkid']) ? $data['linkid'] : "",
+            "location"   => $location,
+            "operator"   => $operator,
+            "province"   => $province,
+            "city"       => $city,
+            "mtime"      => date("Y-m-d H:i:s")
         ];
         $MParam = Model("Param");
         if( $MParam->save($saveData) ){
@@ -54,9 +96,31 @@ class Project extends Frontend
     }
 
     private function out($data){
+        return $data;
         return json([
             "status"=>$data
         ]);
     }
+
+    public function test2()
+    {
+        $phone = "15919829112";
+        $phoneQCellCore = substr($phone,0,7);
+        $province = $city = $isp = $location = "";
+        $Hdcx = Model("Hdcx");
+        $res = $Hdcx->where("phone", $phoneQCellCore)->find();
+        if ($res) {
+            $province = $res->province;
+            $city = $res->city;
+            $isp = $res->isp;
+            $location = $province . $city . $isp;
+        }
+        dump($province);
+        dump($city);
+        dump($isp);
+        dump($location);
+        dump(123123123);
+    }
+
 
 }

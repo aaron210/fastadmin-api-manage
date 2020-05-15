@@ -22,12 +22,15 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 pk: 'id',
                 sortName: 'id',
                 search:true,
+                searchFormVisible: true,
                 columns: [
                     [
                         {checkbox: true},
-                        {field: 'id', title: __('Id')},
-                        {field: 'project_id', title: __('Project_id')},
-                        {field: 'param', title: __('Param')},
+                        {field: 'id', title: __('Id'), operate: false},
+                        {field: 'project_id', title: __('Project_id'), searchList: projectArr, formatter:function(value, row, index){
+                            return projectArr[value];
+                        }},
+                        {field: 'param', title: __('Param'), operate: 'LIKE %...%', placeholder: '关键字，模糊搜索'},
                         {field: 'mobile', title: __('Mobile')},
                         {field: 'mtime', title: __('Mtime'), operate:'RANGE', addclass:'datetimerange'},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
