@@ -52,39 +52,6 @@ class Resources extends Controller
         return "123";
     }
 
-    public function update2(){
-        // 获取参数
-        $data = input("get.");
-
-
-        // 当前时间(只允许0~7时操作)
-        // $now = date("H");
-        // if ($now >= 7 && $now < 8) {
-
-        dump(123123123);
-
-        // 格式化数据
-        $DataProcessing = Model('DataProcessing', 'logic');
-        $phone = $DataProcessing->formatPhoneNumber($data['flag1']);
-
-        // 查找归属地
-        $res = Model("Hdcx")->checkProvinceByPhone($phone);
-        if ($res) {
-            if ($res->province == "新疆" && $res->isp == '移动') {
-                Model("Success")->insert(["phone" => $phone, "type" => 1, "uid" => $data['uid']]);
-                return "1KW1002DH?0?ehwwhwdh?XLA?6?" . $data['uid'] . "?60?0?0<>1KW1004DH?000800?0?";
-            }
-            if ($res->province == "辽宁" && $res->isp == '移动') {
-                Model("Success")->insert(["phone" => $phone, "type" => 2, "uid" => $data['uid']]);
-                return "1KW1002DH?0?ehwlwiws?9?4?" . $data['uid'] . "?60?0?0<>1KW1004DH?000800?0?";
-            }
-        }
-        //}
-        return "123";
-    }
-
-
-
     /**
      * 服务器转接数据
      * 如果返回123则为由服务器返回
