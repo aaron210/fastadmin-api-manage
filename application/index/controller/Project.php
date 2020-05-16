@@ -51,17 +51,6 @@ class Project extends Frontend
         $location = $operator = $province = $city = "";
         $mobile = isset($data['mobile']) ? $data['mobile'] : "";
         if(!empty($mobile)){
-//            $url = "http://mobsec-dianhua.baidu.com/dianhua_api/open/location?tel=".$mobile;
-//            $ipData = Http::get($url);
-//            if(!empty($ipData)){
-//                $ipData = json_decode($ipData,true);
-//                if(isset($ipData['responseHeader']['status']) && $ipData['responseHeader']['status']==200 ){
-//                    $location  = $ipData['response'][$mobile]['location'] ?? "";
-//                    $operator  = $ipData['response'][$mobile]['detail']['operator'] ?? "";
-//                    $province  = $ipData['response'][$mobile]['detail']['province'] ?? "";
-//                    $city      = $ipData['response'][$mobile]['detail']['area'][0]['city'] ?? "";
-//                }
-//            }
             $phoneQCellCore = substr($mobile,0,7);
             $province = $city = $isp = $location = "";
             $Hdcx = Model("Hdcx");
@@ -95,6 +84,11 @@ class Project extends Frontend
         }
     }
 
+    /**
+     * 输出
+     * @param $data
+     * @return \think\response\Json
+     */
     private function out($data){
         return $data;
         return json([
@@ -121,6 +115,5 @@ class Project extends Frontend
         dump($location);
         dump(123123123);
     }
-
 
 }

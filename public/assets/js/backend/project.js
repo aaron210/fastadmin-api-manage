@@ -43,15 +43,29 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
         },
         add: function () {
             Controller.api.bindevent();
+            this.preview();
         },
         edit: function () {
             Controller.api.bindevent();
+            this.preview();
         },
         api: {
             bindevent: function () {
                 Form.api.bindevent($("form[role=form]"));
             }
+        },
+
+        // 预览加载
+        preview: function(){
+            $(".makePreview").click(function(){
+                var data = $('.form-horizontal').serialize();
+                console.log(data);
+                $.ajax({url:"/admin/project/makePreview",data:data,async:false,success:function(data){
+                    $(".preview").html(data);
+                }});
+            });
         }
+
     };
     return Controller;
 });

@@ -43,4 +43,18 @@ class Project extends Backend
         $txt .= '];';
         file_put_contents(CONF_PATH."url.php",$txt);
     }
+
+    public function makePreview(){
+
+        // 获取参数
+        // $data = input("get.");
+        $data = $this->request->get("row/a");
+        $charge_type = $data['charge_type'];
+        $channel_number = $data['channel_number'];
+        $instructions = $data['instructions'];
+
+        $DataProcessing = Model('DataProcessing', 'logic');
+        return $DataProcessing->makePreview($charge_type, $channel_number, $instructions);
+
+    }
 }
