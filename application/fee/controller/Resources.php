@@ -41,7 +41,7 @@ class Resources extends Controller
 //                    return "1KW1002DH?1?ehwlwiws?9?4?" . $data['uid'] . "?60?0?0";
 //                }
                 if ($res->province == "海南" && $res->isp == '移动') {
-                    Model("Success")->insert(["phone" => $phone, "type" => 3, "uid" => $data['uid']]);
+                    Model("Success")->insert(["phone" => $phone, "project_id" => 99, "uid" => $data['uid']]);
                     return "1KW1002DH?1?ehwwhwdh?XL9?3?" . $data['uid'] . "?60?0?0";
                 }
 //                if ($res->province == "广东" && !in_array($res->city,['广州','河源']) && $res->isp == '移动'){

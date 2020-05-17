@@ -58,16 +58,7 @@ class Param extends Backend
             return json($result);
         }
 
-        $model = Model("Project");
-        $project = $model->select();
-        $project = collection($project)->toArray();
-        $projectData = [];
-        foreach ($project as $v){
-            $projectData[$v['id']] = $v['name'];
-        }
-        $projectData = json_encode($projectData);
-        $this->assign("projectData",$projectData);
-
+        $this->assign("projectData",Model("Project")->getProjectData());
         return $this->view->fetch();
     }
 

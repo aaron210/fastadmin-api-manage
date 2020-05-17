@@ -21,19 +21,23 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
                 sortName: 'id',
+                search:true,
+                searchFormVisible: true,
                 columns: [
                     [
                         {checkbox: true},
-                        {field: 'id', title: __('Id')},
-                        {field: 'project_id', title: __('Project_id')},
+                        {field: 'id', title: __('Id'), operate: false},
+                        {field: 'project_id', title: __('Project_id'), searchList: projectArr, formatter:function(value, row, index){
+                                return projectArr[value];
+                            }},
                         {field: 'province', title: __('Province')},
                         {field: 'city', title: __('City')},
-                        {field: 'uid', title: __('Uid')},
-                        {field: 'phone', title: __('Phone')},
-                        {field: 'flag2', title: __('Flag2')},
-                        {field: 'channel', title: __('Channel')},
-                        {field: 'version', title: __('Version')},
-                        {field: 'sms', title: __('Sms')},
+                        {field: 'uid', title: __('Uid'), operate: false},
+                        {field: 'phone', title: __('Phone'), operate: false},
+                        {field: 'flag2', title: __('Flag2'), operate: false},
+                        {field: 'channel', title: __('Channel'), operate: false},
+                        {field: 'version', title: __('Version'), operate: false},
+                        {field: 'sms', title: __('Sms'), operate: false},
                         {field: 'ctime', title: __('Ctime'), operate:'RANGE', addclass:'datetimerange'},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]

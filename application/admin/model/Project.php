@@ -12,7 +12,7 @@ class Project extends Model
     protected $name = 'project';
     
     // 自动写入时间戳字段
-    protected $autoWriteTimestamp = true;
+    protected $autoWriteTimestamp = 'datetime';
 
     // 定义时间戳字段名
     protected $createTime = "mtime";
@@ -23,9 +23,23 @@ class Project extends Model
     protected $append = [
 
     ];
-    
 
-
+    /**
+     * @return false|string
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function getProjectData(){
+        $project = self::select();
+        $project = collection($project)->toArray();
+        $projectData = [];
+        foreach ($project as $v){
+            $projectData[$v['id']] = $v['name'];
+        }
+        $projectData = json_encode($projectData);
+        return $projectData;
+    }
 
 
 }
