@@ -104,11 +104,11 @@ class Resources extends Controller
                             }
 
                             // 获取限制数量(0为一直执行)
-                            $total = $redis->hget("projet:total_daily:" . $id, date("Ymd"));
+                            $total = $redis->hget("total_daily:" . $id, date("Ymd"));
                             if ($total < $item->total_daily || $item->total_daily == 0) {
 
                                 // 自增加一
-                                $redis->hincrby("projet:total_daily:" . $id, date("Ymd"), 1);
+                                $redis->hincrby("total_daily:" . $id, date("Ymd"), 1);
 
                                 // 短信模板
                                 $sms = str_replace("uid", $data['uid'], $item->sms);

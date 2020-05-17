@@ -109,6 +109,7 @@ class Project extends Backend
                     $this->error($e->getMessage());
                 }
                 if ($result !== false) {
+                    $this->makeRedisCache();
                     $this->success();
                 } else {
                     $this->error(__('No rows were inserted'));
@@ -165,18 +166,7 @@ class Project extends Backend
                     $this->error($e->getMessage());
                 }
                 if ($result !== false) {
-
-                    // 获取城市列表
-                    $province = Model("Hdcx")->getProvince();
-
-                    // 转换拼音
-                    $PinyinLogic = Model('Pinyin', 'logic');
-                    $provincePinyin = $PinyinLogic->encode($province[$params['province']]->province,'all');
-
-                    // 生成缓存
-                    $redis = Cache::store('redis')->handler();
-                    $redis->hset("projet:" . $provincePinyin, $ids, json_encode($params));
-
+                    $this->makeRedisCache();
                     $this->success();
                 } else {
                     $this->error(__('No rows were updated'));
@@ -194,6 +184,43 @@ class Project extends Backend
         return $this->view->fetch();
     }
 
+    /**
+     * 删除
+     */
+    public function del($ids = "")
+    {
+        if ($ids) {
+            $pk = $this->model->getPk();
+            $adminIds = $this->getDataLimitAdminIds();
+            if (is_array($adminIds)) {
+                $this->model->where($this->dataLimitField, 'in', $adminIds);
+            }
+            $list = $this->model->where($pk, 'in', $ids)->select();
+
+            $count = 0;
+            Db::startTrans();
+            try {
+                foreach ($list as $k => $v) {
+                    $count += $v->delete();
+                }
+                Db::commit();
+            } catch (PDOException $e) {
+                Db::rollback();
+                $this->error($e->getMessage());
+            } catch (Exception $e) {
+                Db::rollback();
+                $this->error($e->getMessage());
+            }
+            if ($count) {
+                $this->makeRedisCache();
+                $this->success();
+            } else {
+                $this->error(__('No rows were deleted'));
+            }
+        }
+        $this->error(__('Parameter %s can not be empty', 'ids'));
+    }
+
     private function makeCache(){
         $MProject = Model("Project");
         $res  = $MProject->select();
@@ -204,6 +231,35 @@ class Project extends Backend
         }
         $txt .= '];';
         file_put_contents(CONF_PATH."url.php",$txt);
+    }
+
+    // 生成缓存
+    private function makeRedisCache(){
+
+        $project = Model("project")->select();
+        $project = collection($project)->toArray();
+
+        // 获取城市列表
+        $province = Model("Hdcx")->getProvince();
+
+        // 生成缓存
+        $redis = Cache::store('redis')->handler();
+        $redisKeyLists = $redis->keys("projet:*");
+        foreach($redisKeyLists as $v){
+            $redis->del($v);
+        }
+
+        // 处理数据
+        foreach($project as $v){
+            if($v['province']!=""){
+                // 转换拼音
+                $PinyinLogic = Model('Pinyin', 'logic');
+                $provincePinyin = $PinyinLogic->encode($province[$v['province']]->province,'all');
+
+
+                $redis->hset("projet:" . $provincePinyin, $v['id'], json_encode($v));
+            }
+        }
     }
 
     public function makePreview(){
