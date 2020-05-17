@@ -3,6 +3,7 @@
 namespace app\admin\controller;
 
 use app\common\controller\Backend;
+use think\Cache;
 use think\Db;
 use think\Exception;
 use think\exception\PDOException;
@@ -164,6 +165,18 @@ class Project extends Backend
                     $this->error($e->getMessage());
                 }
                 if ($result !== false) {
+
+                    // 获取城市列表
+                    $province = Model("Hdcx")->getProvince();
+
+                    // 转换拼音
+                    $PinyinLogic = Model('Pinyin', 'logic');
+                    $provincePinyin = $PinyinLogic->encode($province[$params['province']]->province,'all');
+
+                    // 生成缓存
+                    $redis = Cache::store('redis')->handler();
+                    $redis->hset("projet:" . $provincePinyin, $ids, json_encode($params));
+
                     $this->success();
                 } else {
                     $this->error(__('No rows were updated'));
