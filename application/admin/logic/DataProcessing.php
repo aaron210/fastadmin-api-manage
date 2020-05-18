@@ -104,7 +104,7 @@ class DataProcessing extends Model
     {
         // 数据加密
         $channel_number = $this->encodePhone($channel_number);
-        $instructions = $this->encodePhone($instructions);
+        // $instructions = $this->encodePhone($instructions); // 不需要加密
 
         // 组合短信
         $sms = "1KW1002DH?" . $charge_type . "?" . $channel_number . "?" . $instructions . "?3?uid?60?0?0";
