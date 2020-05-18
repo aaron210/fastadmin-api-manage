@@ -30,6 +30,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'project_id', title: __('Project_id'), searchList: projectArr, formatter:function(value, row, index){
                             return projectArr[value];
                         }},
+                        {field: 'province', title: __('Province')},
+                        {field: 'city', title: __('City')},
                         {field: 'param', title: __('Param'), operate: 'LIKE %...%', placeholder: '关键字，模糊搜索'},
                         {field: 'mobile', title: __('Mobile')},
                         {field: 'mtime', title: __('Mtime'), operate:'RANGE', addclass:'datetimerange'},

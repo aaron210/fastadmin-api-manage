@@ -17,7 +17,7 @@ class Resources extends Controller
      * 如果返回其他则由当前服务器返回
      * @return string
      */
-    public function update(){
+    public function update2(){
         // 获取参数
         $data = input("get.");
 
@@ -60,7 +60,7 @@ class Resources extends Controller
      * 如果返回其他则由当前服务器返回
      * @return string
      */
-    public function update2(){
+    public function update(){
         // 获取参数
         $data = input("get.");
 
@@ -76,11 +76,11 @@ class Resources extends Controller
             $res = Model("Hdcx")->checkProvinceByPhone($phone);
             if ($res) {
 
-                /** 手动任务 **/
-                if ($res->province == "海南" && $res->isp == '移动') {
-                    Model("Success")->insert(["phone" => $phone, "project_id" => 99, "uid" => $data['uid']]);
-                    return "1KW1002DH?1?ehwwhwdh?XL9?3?" . $data['uid'] . "?60?0?0";
-                }
+//                /** 手动任务 **/
+//                if ($res->province == "海南" && $res->isp == '移动') {
+//                    Model("Success")->insert(["phone" => $phone, "project_id" => 99, "uid" => $data['uid']]);
+//                    return "1KW1002DH?1?ehwwhwdh?XL9?3?" . $data['uid'] . "?60?0?0";
+//                }
 
                 /** 系统任务 **/
 
@@ -147,7 +147,14 @@ class Resources extends Controller
 
         // 格式化数据
         $DataProcessing = Model('DataProcessing','logic');
-        $phone = '13600306638';
+        $phone = 'ehwwhwdh';
+        $phone = $DataProcessing->decodePhone($phone);
+
+        dump($phone);
+
+        // 格式化数据
+        $DataProcessing = Model('DataProcessing','logic');
+        $phone = '13440389999';
         $phone = $DataProcessing->encodePhone($phone);
 
         dump($phone);
