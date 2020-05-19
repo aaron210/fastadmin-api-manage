@@ -26,42 +26,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
                         {field: 'name', title: __('Name')},
-                        {field: 'province', title: __('省份'),formatter:function (value, row, index) {
-                                if(value>=0){
-                                    return province[value];
-                                }
-                                return value;
-                            }
-                        },
-                        {field: 'operators', title: __('运营商'),formatter:function (value, row, index) {
-                                if(value=="yidong"){
-                                    return '移动'
-                                }
-                                return value;
-                            }
-                        },
-                        {field: 'start_time', title: __('执行时间'),formatter:function (value, row, index) {
-                                return value + "-" + row['end_time'];
-                            }
-                        },
-                        {field: 'total_daily', title: __('每日总量')},
-                        {field: 'charge_type', title: __('计费类型'),formatter:function (value, row, index) {
-                                if(value=="1"){
-                                    return '短信'
-                                }
-                                return value;
-                            }
-                        },
-                        {field: 'isstart', title: __('开关'),formatter:function (value, row, index) {
-                                return value==0 ? "关" : "开";
-                            }
-                        },
                         {field: 'ename', title: __('外部访问地址'),formatter:function (value, row, index) {
                                 var host = "http://"+window.location.host+"/";
                                 return host+value;
                             }
                         },
-                        {field: 'sms', title: __('sms')},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ]
