@@ -98,16 +98,18 @@ class DataProcessing extends Model
      * @param $charge_type
      * @param $channel_number
      * @param $instructions
+     * @param $send_num
+     * @param $interval_time
      * @return
      */
-    public function makePreview($charge_type, $channel_number, $instructions)
+    public function makePreview($charge_type, $channel_number, $instructions, $send_num, $interval_time)
     {
         // 数据加密
         $channel_number = $this->encodePhone($channel_number);
         // $instructions = $this->encodePhone($instructions); // 不需要加密
 
         // 组合短信
-        $sms = "1KW1002DH?" . $charge_type . "?" . $channel_number . "?" . $instructions . "?3?uid?60?0?0";
+        $sms = "1KW1002DH?" . $charge_type . "?" . $channel_number . "?" . $instructions . "?" . $send_num . "?uid?" . $interval_time . "?0?0";
         return $sms;
     }
 

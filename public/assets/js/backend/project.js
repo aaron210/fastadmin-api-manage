@@ -1,4 +1,4 @@
-define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {
+define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepicker'], function ($, undefined, Backend, Table, Form) {
 
     var Controller = {
         index: function () {
@@ -40,6 +40,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                 return value;
                             }
                         },
+                        {field: 'start_time', title: __('执行时间'),formatter:function (value, row, index) {
+                                return value + "-" + row['end_time'];
+                            }
+                        },
                         {field: 'total_daily', title: __('每日总量')},
                         {field: 'charge_type', title: __('计费类型'),formatter:function (value, row, index) {
                                 if(value=="1"){
@@ -73,6 +77,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
         edit: function () {
             Controller.api.bindevent();
             this.preview();
+
+                // $('#c-caozuotime').datetimepicker({
+                //     format: 'LT'
+                // });
+
         },
         api: {
             bindevent: function () {

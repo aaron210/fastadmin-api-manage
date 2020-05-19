@@ -23,6 +23,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 sortName: 'id',
                 search:true,
                 searchFormVisible: true,
+                showToggle: false,
+                showColumns: false,
+                showExport: false,
                 columns: [
                     [
                         {checkbox: true},

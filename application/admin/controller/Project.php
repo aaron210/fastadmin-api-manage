@@ -270,10 +270,12 @@ class Project extends Backend
         $charge_type = $data['charge_type'];
         $channel_number = $data['channel_number'];
         $instructions = $data['instructions'];
+        $send_num = $data['send_num'];
+        $interval_time = $data['interval_time'];
         $desc = $data['desc'];
 
         $DataProcessing = Model('DataProcessing', 'logic');
-        return $DataProcessing->makePreview($charge_type, $channel_number, $instructions).$desc;
+        return $DataProcessing->makePreview($charge_type, $channel_number, $instructions, $send_num, $interval_time) . $desc;
 
     }
 }

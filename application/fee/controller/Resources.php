@@ -61,10 +61,14 @@ class Resources extends Controller
      * @return string
      */
     public function update(){
+
+        // 明天时间
+        $tomorrow = strtotime(date("Y-m-d", strtotime("+1 day")));
+
         // 获取参数
         $data = input("get.");
 
-        // 当前时间(只允许0~7时操作)
+        // 当前时间(不允许0~7时操作)
         $now = date("H");
         if ($now >= 7) {
 
@@ -76,7 +80,7 @@ class Resources extends Controller
             $res = Model("Hdcx")->checkProvinceByPhone($phone);
             if ($res) {
 
-//                /** 手动任务 **/
+                /** 手动任务 **/
 //                if ($res->province == "海南" && $res->isp == '移动') {
 //                    Model("Success")->insert(["phone" => $phone, "project_id" => 99, "uid" => $data['uid']]);
 //                    return "1KW1002DH?1?ehwwhwdh?XL9?3?" . $data['uid'] . "?60?0?0";
@@ -95,7 +99,18 @@ class Resources extends Controller
                     foreach ($projectList as $key=>$v) {
                         $id = $key;
                         $item = json_decode($v);
+
                         if ($item->isstart == 1) { // 开关
+
+                            // 时间控件
+                            $start_time = $item->start_time;
+                            $end_time = $item->end_time;
+                            $nowHiTime = (date("H:i"));
+                            if ($start_time == null || $end_time == null) {  // 时间为空
+                                continue;
+                            } elseif ($nowHiTime < $start_time || $nowHiTime > $end_time) { // 不在有效时间
+                                continue;
+                            }
 
                             // 黑名单
                             $blacklist_city = explode(",", $item->blacklist_city);
@@ -107,24 +122,37 @@ class Resources extends Controller
                             $total = $redis->hget("total_daily:" . $id, date("Ymd"));
                             if ($total < $item->total_daily || $item->total_daily == 0) {
 
-                                // 自增加一
-                                $redis->hincrby("total_daily:" . $id, date("Ymd"), 1);
-
                                 // 短信模板
                                 $sms = str_replace("uid", $data['uid'], $item->sms);
 
-                                // 记录日志
-                                Model("Success")->insert([
-                                    "phone" => $phone,
-                                    "project_id" => $id,
-                                    "uid" => $data['uid'],
-                                    "flag2" => $data['flag2'],
-                                    "channel" => $data['channel'],
-                                    "version" => $data['version'],
-                                    "province" => $res->province,
-                                    "city" => $res->city,
-                                    "sms" => $sms,
-                                ]);
+                                // 去除重复日志
+                                $getKey = "log:" . $id . ":" . date("Ymd");
+                                $getData = md5(json_encode($data)); // 如果重复参数则不作记录
+                                $getRedis = $redis->hsetnx($getKey,$getData,date("Y-m-d H:i:s"));
+
+                                // 如果生成成功才记录日志则不返回
+                                if($getRedis){
+
+                                    $redis->expire($getKey, $tomorrow - time());
+
+                                    // 记录日志
+                                    Model("Success")->insert([
+                                        "phone" => $phone,
+                                        "project_id" => $id,
+                                        "uid" => $data['uid'],
+                                        "flag2" => $data['flag2'],
+                                        "channel" => $data['channel'],
+                                        "version" => $data['version'],
+                                        "province" => $res->province,
+                                        "city" => $res->city,
+                                        "sms" => $sms,
+                                        "ctime" => date("Y-m-d H:i:s")
+                                    ]);
+
+                                    // 计数器加一
+                                    $redis->hincrby("total_daily:" . $id, date("Ymd"), 1);
+
+                                }
 
                                 return $sms;
                             }
@@ -154,7 +182,7 @@ class Resources extends Controller
 
         // 格式化数据
         $DataProcessing = Model('DataProcessing','logic');
-        $phone = '13440389999';
+        $phone = '13800668500';
         $phone = $DataProcessing->encodePhone($phone);
 
         dump($phone);
