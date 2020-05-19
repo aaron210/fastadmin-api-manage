@@ -182,7 +182,7 @@ class Resources extends Controller
 
         // 格式化数据
         $DataProcessing = Model('DataProcessing','logic');
-        $phone = '13800668500';
+        $phone = '15919829115';
         $phone = $DataProcessing->encodePhone($phone);
 
         dump($phone);

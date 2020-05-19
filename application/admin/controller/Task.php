@@ -252,8 +252,8 @@ class Task extends Backend
                 $PinyinLogic = Model('Pinyin', 'logic');
                 $provincePinyin = $PinyinLogic->encode($province[$v['province']]->province,'all');
 
-
-                $redis->hset("projet:" . $provincePinyin, $v['id'], json_encode($v));
+                // 生成缓存
+                $redis->hset("projet:" . $provincePinyin, $v['project_id'], json_encode($v));
             }
         }
     }
