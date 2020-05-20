@@ -66,7 +66,7 @@ class Task extends Backend
             // 生成缓存
             $redis = Cache::store('redis')->handler();
             foreach($list as $key=>$v){
-                $value = $redis->hget("total_daily:" . $v['project_id'], date("Ymd"));
+                $value = $redis->hget("total_daily:" . $v['id'], date("Ymd"));
                 $value = $value > 0 ? $value : 0;
                 $list[$key]['total_daily_num'] = $value;
             }

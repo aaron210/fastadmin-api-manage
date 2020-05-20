@@ -138,7 +138,7 @@ class Resources extends Controller
                                     // 记录日志
                                     Model("Success")->insert([
                                         "phone" => $phone,
-                                        "project_id" => $v['project_id'],
+                                        "project_id" => $item->project_id,
                                         "uid" => $data['uid'],
                                         "flag2" => $data['flag2'],
                                         "channel" => $data['channel'],
@@ -182,7 +182,7 @@ class Resources extends Controller
 
         // 格式化数据
         $DataProcessing = Model('DataProcessing','logic');
-        $phone = '18558707999';
+        $phone = '15293288888';
         $phone = $DataProcessing->encodePhone($phone);
 
         dump($phone);
