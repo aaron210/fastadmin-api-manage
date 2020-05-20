@@ -62,6 +62,15 @@ class Task extends Backend
                 ->select();
 
             $list = collection($list)->toArray();
+
+            // 生成缓存
+            $redis = Cache::store('redis')->handler();
+            foreach($list as $key=>$v){
+                $value = $redis->hget("total_daily:" . $v['project_id'], date("Ymd"));
+                $value = $value > 0 ? $value : 0;
+                $list[$key]['total_daily_num'] = $value;
+            }
+
             $result = array("total" => $total, "rows" => $list);
 
             return json($result);
@@ -253,7 +262,7 @@ class Task extends Backend
                 $provincePinyin = $PinyinLogic->encode($province[$v['province']]->province,'all');
 
                 // 生成缓存
-                $redis->hset("projet:" . $provincePinyin, $v['project_id'], json_encode($v));
+                $redis->hset("projet:" . $provincePinyin, $v['id'], json_encode($v));
             }
         }
     }

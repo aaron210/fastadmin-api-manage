@@ -48,6 +48,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                             }
                         },
                         {field: 'total_daily', title: __('每日总量')},
+                        {field: 'total_daily_num', title: __('现已执行量')},
                         {field: 'charge_type', title: __('计费类型'),formatter:function (value, row, index) {
                                 if(value=="1"){
                                     return '短信'
