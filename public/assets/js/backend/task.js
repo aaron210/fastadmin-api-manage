@@ -85,7 +85,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
             $(".makePreview").click(function(){
                 var data = $('.form-horizontal').serialize();
                 console.log(data);
-                $.ajax({url:"/admin/project/makePreview",data:data,async:false,success:function(data){
+                $.ajax({url:"/admin/task/makePreview",data:data,async:false,success:function(data){
                         $(".preview").html(data);
                     }});
             });
