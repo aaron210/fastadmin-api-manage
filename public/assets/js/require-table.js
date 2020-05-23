@@ -23,8 +23,8 @@ define(['jquery', 'bootstrap', 'moment', 'moment/locale/zh-cn', 'bootstrap-table
             pageSize: 10,
             pageList: [10, 25, 50, 'All'],
             pagination: true,
-            clickToSelect: true, //是否启用点击选中
-            dblClickToEdit: true, //是否启用双击编辑
+            clickToSelect: false, //是否启用点击选中
+            dblClickToEdit: false, //是否启用双击编辑
             singleSelect: false, //是否启用单选
             showRefresh: false,
             locale: 'zh-CN',

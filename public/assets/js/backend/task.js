@@ -62,6 +62,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                         {field: 'remarks', title: __('备注')},
                         {field: 'mtime', title: __('修改时间'), formatter: Table.api.formatter.datetime},
                         {field: 'isstart', title: '开关',formatter:Table.api.formatter.toggle},
+                        {field: 'copy', title: '复制',formatter:function (value, row, index) {
+                                return '<a href="javascript:void(0);" class="btn btn-xs copy" data-id="' + row['id'] + '"><i class="fa fa-copy"></i></a>';
+                            }
+                        },
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ]
@@ -69,6 +73,26 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
 
             // 为表格绑定事件
             Table.api.bindevent(table);
+
+            var _this = this;
+            //当表格数据加载完成时
+            table.on('load-success.bs.table', function (e, data) {
+                $(".copy").click(function(){
+                    var _this = this;
+                    Layer.confirm(__('确认复制?'), function () {
+                        var id = $(_this).attr("data-id");
+                        $.ajax({
+                            url: "/admin/task/copy", data: {id: id}, success: function (data) {
+                                if (data.code == 200) {
+                                    Layer.closeAll();
+                                    table.bootstrapTable('refresh');
+                                }
+                            }
+                        });
+                    });
+                });
+            });
+
         },
         add: function () {
             Controller.api.bindevent();
@@ -93,7 +117,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                         $(".preview").html(data);
                     }});
             });
-        }
+        },
     };
     return Controller;
 });

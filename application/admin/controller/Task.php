@@ -294,4 +294,21 @@ class Task extends Backend
         return $DataProcessing->makePreview($charge_type, $channel_number, $instructions, $send_num, $interval_time) . $desc;
 
     }
+
+    /**
+     * 复制
+     */
+    public function copy(){
+        $id = $this->request->get("id");
+        if ($id > 0) {
+            $data = Model("task")->find($id)->toArray();
+            unset($data['id']);
+            $data['name'] = $data['name'] . "(复制)";
+            $data['mtime'] = time();
+            Model("task")->save($data);
+            return ["code"=>200];
+        }
+        return ["code"=>100];
+    }
+
 }
