@@ -12,11 +12,11 @@ class Task extends Model
     protected $name = 'task';
     
     // 自动写入时间戳字段
-    protected $autoWriteTimestamp = false;
+    protected $autoWriteTimestamp = true;
 
     // 定义时间戳字段名
     protected $createTime = false;
-    protected $updateTime = false;
+    protected $updateTime = "mtime";
     protected $deleteTime = false;
 
     

@@ -66,9 +66,18 @@ class Task extends Backend
             // 生成缓存
             $redis = Cache::store('redis')->handler();
             foreach($list as $key=>$v){
+
+                // 获取输出量
                 $value = $redis->hget("total_daily:" . $v['id'], date("Ymd"));
                 $value = $value > 0 ? $value : 0;
                 $list[$key]['total_daily_num'] = $value;
+
+                // 获取响应量
+                $value = $redis->hget("channel_total_daily:" . $v['id'], date("Ymd"));
+                $value = $value > 0 ? $value : 0;
+                $list[$key]['channel_total_daily_num'] = $value;
+
+
             }
 
             $result = array("total" => $total, "rows" => $list);
@@ -263,6 +272,8 @@ class Task extends Backend
 
                 // 生成缓存
                 $redis->hset("projet:" . $provincePinyin, $v['id'], json_encode($v));
+                $redis->set("channel:" . $v['channel_number'], json_encode($v)); // 以通道ID来命名的缓存
+
             }
         }
     }

@@ -11,6 +11,7 @@ namespace app\index\controller;
 
 use app\common\controller\Frontend;
 use fast\Http;
+use think\Cache;
 use think\Model;
 use think\Request;
 
@@ -78,6 +79,7 @@ class Project extends Frontend
         ];
         $MParam = Model("Param");
         if( $MParam->save($saveData) ){
+            $this->markNum($data);
             return $this->out("ok");
         }else{
             return $this->out("false");
@@ -96,24 +98,33 @@ class Project extends Frontend
         ]);
     }
 
-    public function test2()
-    {
-        $phone = "15919829112";
-        $phoneQCellCore = substr($phone,0,7);
-        $province = $city = $isp = $location = "";
-        $Hdcx = Model("Hdcx");
-        $res = $Hdcx->where("phone", $phoneQCellCore)->find();
-        if ($res) {
-            $province = $res->province;
-            $city = $res->city;
-            $isp = $res->isp;
-            $location = $province . $city . $isp;
+    /**
+     * 记录数量
+     */
+    private function markNum($data){
+
+        // 获取通道号码
+        if(isset($data['spcode'])){
+            $channel_number = $data['spcode'];
+        }elseif(isset($data['spnumber'])){
+            $channel_number = $data['spnumber'];
+        }elseif(isset($data['calledid'])){
+            $channel_number = $data['calledid'];
+        }else{
+            $channel_number = "";
         }
-        dump($province);
-        dump($city);
-        dump($isp);
-        dump($location);
-        dump(123123123);
+
+        // 记录数量
+        if($channel_number){
+            // 生成缓存
+            $redis = Cache::store('redis')->handler();
+            $task = $redis->get("channel:" . $channel_number);
+            if($task){
+                $task = json_decode($task,true);
+                $redis->hincrby("channel_total_daily:" . $task['id'], date("Ymd"), 1); // 加一日志
+            }
+        }
+
     }
 
 }

@@ -48,16 +48,20 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                             }
                         },
                         {field: 'total_daily', title: __('每日总量')},
-                        {field: 'total_daily_num', title: __('现已执行量')},
+                        {field: 'total_daily_num', title: __('输出量')},
+                        {field: 'channel_total_daily_num', title: __('回调量')},
                         {field: 'charge_type', title: __('计费类型'),formatter:function (value, row, index) {
                                 if(value=="1"){
-                                    return '短信'
+                                    return '短信';
                                 }
                                 return value;
                             }
                         },
-                        {field: 'isstart', title: '开关',formatter:Table.api.formatter.toggle},
+
                         {field: 'sms', title: __('sms')},
+                        {field: 'remarks', title: __('备注')},
+                        {field: 'mtime', title: __('修改时间'), formatter: Table.api.formatter.datetime},
+                        {field: 'isstart', title: '开关',formatter:Table.api.formatter.toggle},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ]
