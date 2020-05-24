@@ -62,6 +62,10 @@ class Resources extends Controller
      */
     public function update(){
 
+        // 数据统计
+        $StatisticsLogic = Model("Statistics","Logic");
+        $StatisticsLogic->run();
+
         // 明天时间
         $tomorrow = strtotime(date("Y-m-d", strtotime("+1 day")));
 
@@ -152,6 +156,9 @@ class Resources extends Controller
                                     // 计数器加一
                                     $redis->hincrby("total_daily:" . $id, date("Ymd"), 1);
 
+                                    // 输出总数
+                                    $StatisticsLogic->total_output_today();
+
                                 }
 
                                 return $sms;
@@ -162,6 +169,7 @@ class Resources extends Controller
                 }
             }
         }
+
         return "123";
     }
 
@@ -182,7 +190,7 @@ class Resources extends Controller
 
         // 格式化数据
         $DataProcessing = Model('DataProcessing','logic');
-        $phone = '15293288888';
+        $phone = '15919829113';
         $phone = $DataProcessing->encodePhone($phone);
 
         dump($phone);

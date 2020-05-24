@@ -3,6 +3,7 @@
 namespace app\admin\controller;
 
 use app\common\controller\Backend;
+use think\Cache;
 use think\Config;
 
 /**
@@ -33,6 +34,11 @@ class Dashboard extends Backend
         Config::parse($addonComposerCfg, "json", "composer");
         $config = Config::get("composer");
         $addonVersion = isset($config['version']) ? $config['version'] : __('Unknown');
+
+        $redis = Cache::store('redis')->handler();
+        $total_visits = $redis->hget("statistics:total_visits",date("Y-m-d"));  // 记录访问总数
+        $total_output_today = $redis->hget("statistics:total_output_today",date("Y-m-d"));  // 记录输出总数
+
         $this->view->assign([
             'totaluser'        => 35200,
             'totalviews'       => 219390,
@@ -47,10 +53,28 @@ class Dashboard extends Backend
             'paylist'          => $paylist,
             'createlist'       => $createlist,
             'addonversion'       => $addonVersion,
-            'uploadmode'       => $uploadmode
+            'uploadmode'       => $uploadmode,
+            'total_visits'     => $total_visits ?: 0,
+            'total_output_today'     => $total_output_today ?: 0,
         ]);
 
         return $this->view->fetch();
+    }
+
+    /**
+     * 获取实时数据
+     */
+    public function data(){
+
+        $redis = Cache::store('redis')->handler();
+        $total_visits = $redis->hget("statistics:total_visits",date("Y-m-d"));  // 记录总数
+
+        // 数据
+        $data = [
+            "total_visits" => $total_visits
+        ];
+
+        return ["code" => 200, "data" => $data];
     }
 
 }

@@ -108,6 +108,17 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
                 top.window.$("[data-toggle=checkupdate]").trigger("click");
             });
 
+            setInterval(function () {
+                $.ajax({
+                    url: "/admin/dashboard/data",
+                    success: function (data) {
+                        $("#total_visits").html(data.data.total_visits);
+                    }, error: function () {
+
+                    }
+                });
+            }, 2000);
+
         }
     };
 
