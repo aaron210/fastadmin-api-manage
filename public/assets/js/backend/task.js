@@ -39,13 +39,13 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                 return value;
                             }
                         },
-                        {field: 'operators', title: __('运营商'),formatter:function (value, row, index) {
-                                if(value=="yidong"){
-                                    return '移动'
-                                }
-                                return value;
-                            }
-                        },
+                        // {field: 'operators', title: __('运营商'),formatter:function (value, row, index) {
+                        //         if(value=="yidong"){
+                        //             return '移动'
+                        //         }
+                        //         return value;
+                        //     }
+                        // },
                         {field: 'start_time', title: __('执行时间'),formatter:function (value, row, index) {
                                 return value + "-" + row['end_time'];
                             }
@@ -53,15 +53,19 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                         {field: 'total_daily', title: __('每日总量')},
                         {field: 'total_daily_num', title: __('输出量')},
                         {field: 'channel_total_daily_num', title: __('回调量')},
-                        {field: 'charge_type', title: __('计费类型'),formatter:function (value, row, index) {
-                                if(value=="1"){
-                                    return '短信';
-                                }
-                                return value;
+                        {field: 'ratio', title: __('输出比例'),formatter:function (value, row, index) {
+                                return value + "%";
                             }
                         },
+                        // {field: 'charge_type', title: __('计费类型'),formatter:function (value, row, index) {
+                        //         if(value=="1"){
+                        //             return '短信';
+                        //         }
+                        //         return value;
+                        //     }
+                        // },
 
-                        {field: 'sms', title: __('sms')},
+                        {field: 'sms', title: __('sms'),align: 'left'},
                         {field: 'remarks', title: __('备注')},
                         {field: 'mtime', title: __('修改时间'), formatter: Table.api.formatter.datetime},
                         {field: 'isstart', title: '开关',formatter:Table.api.formatter.toggle},

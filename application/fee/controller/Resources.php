@@ -124,7 +124,7 @@ class Resources extends Controller
 
                             // 获取限制数量(0为一直执行)
                             $total = $redis->hget("total_daily:" . $id, date("Ymd"));
-                            if ($total < $item->total_daily || $item->total_daily == 0) {
+                            if ( ($total < $item->total_daily || $item->total_daily == 0) && $this->checkRatio($id, $item->ratio)) {
 
                                 // 短信模板
                                 $sms = str_replace("uid", $data['uid'], $item->sms);
@@ -171,6 +171,36 @@ class Resources extends Controller
         }
 
         return "123";
+    }
+
+    /**
+     * 比例计算
+     * @param $id
+     * @return bool
+     */
+    private function checkRatio($id, $ratio)
+    {
+        $redisKey = "ratio:" . $id;
+        $redis = Cache::store('redis')->handler();
+        $num = $redis->hget($redisKey, date("Y-m-d")); // 获取当前排序
+        $num = $num > 0 ? $num : 0;
+
+        // 如果小于等于比例则输出
+        if($ratio==0){
+            $status = false;
+        } elseif ($num < $ratio) {
+            $status = true;
+        }else{
+            $status = false;
+        }
+
+        if ($num + 1 == 100) {
+            $redis->hset($redisKey, date("Y-m-d"),0);  // 如果大于100则还原为0
+        }else{
+            $redis->hincrby($redisKey, date("Y-m-d"),1); // 自增1
+        }
+
+        return $status;
     }
 
     /**

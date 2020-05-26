@@ -31,10 +31,18 @@
     </div>
 
     <div class="form-group">
-        　　<label class="control-label col-xs-12 col-sm-2">执行时间:</label>
-        　　<div class="col-xs-12 col-sm-2">
-        <input id="c-start-time" class="form-control datetimepicker" style="text-align: center;" data-date-format="LT" name="row[start_time]" type="text" value="07:00" data-rule="required">
+        <label class="control-label col-xs-12 col-sm-2">输出比例:</label>
+        <div class="col-xs-12 col-sm-2">
+            <input id="ratio" class="form-control" style="text-align: center;" name="row[ratio]" type="text" value="100" data-rule="required;integer[+0]; range[~100]">
+        </div>
+        <span class="help-block">说明:输入0~100,按比例输出.如填80,则为80%为自己，20%不处理</span>
     </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">执行时间:</label>
+        <div class="col-xs-12 col-sm-2">
+            <input id="c-start-time" class="form-control datetimepicker" style="text-align: center;" data-date-format="LT" name="row[start_time]" type="text" value="07:00" data-rule="required">
+        </div>
         <div class="col-xs-12 col-sm-1" style="line-height: 32px; text-align: center; padding: 0; width: 1%;"> - </div>
         <div class="col-xs-12 col-sm-2">
             <input id="c-end-time" class="form-control datetimepicker" style="text-align: center;" data-date-format="LT" name="row[end_time]" type="text" value="23:59" data-rule="required">
