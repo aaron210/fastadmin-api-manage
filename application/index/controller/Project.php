@@ -79,7 +79,7 @@ class Project extends Frontend
         ];
         $MParam = Model("Param");
         if( $MParam->save($saveData) ){
-            $this->markNum($data);
+            $this->markNum($data, $province);
             return $this->out("ok");
         }else{
             return $this->out("false");
@@ -101,7 +101,8 @@ class Project extends Frontend
     /**
      * 记录数量
      */
-    private function markNum($data){
+    private function markNum($data, $province)
+    {
 
         // 获取通道号码
         if(isset($data['spcode'])){
@@ -116,9 +117,14 @@ class Project extends Frontend
 
         // 记录数量
         if($channel_number){
+
+            // 转换拼音
+            $PinyinLogic = Model('Pinyin', 'logic');
+            $provincePinyin = $PinyinLogic->encode($province,'all');
+
             // 生成缓存
             $redis = Cache::store('redis')->handler();
-            $task = $redis->get("channel:" . $channel_number);
+            $task = $redis->get("channel:" . $channel_number . ":" . $provincePinyin);
             if($task){
                 $task = json_decode($task,true);
                 $redis->hincrby("channel_total_daily:" . $task['id'], date("Ymd"), 1); // 加一日志

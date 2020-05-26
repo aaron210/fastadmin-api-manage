@@ -68,13 +68,25 @@ class Dashboard extends Backend
 
         $redis = Cache::store('redis')->handler();
         $total_visits = $redis->hget("statistics:total_visits",date("Y-m-d"));  // 记录总数
+        $total_output_today = $redis->hget("statistics:total_output_today",date("Y-m-d"));  // 记录输出总数
 
         // 数据
         $data = [
-            "total_visits" => $total_visits
+            "total_visits"           => $total_visits  ?: 0,
+            'total_output_today'     => $total_output_today ?: 0,
         ];
 
         return ["code" => 200, "data" => $data];
+    }
+
+    /**
+     * 根据小时统计按小时分布流量
+     */
+    public function dateHourStatistics(){
+        for($i=1;$i<24;$i++){
+           $timeData[] = date("YmdH", strtotime("-$i hour"));
+        }
+        dump($timeData);
     }
 
 }

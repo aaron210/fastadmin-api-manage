@@ -4,6 +4,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
         index: function () {
             // 初始化表格参数配置
             Table.api.init({
+                clickToSelect: false, //是否启用点击选中
+                dblClickToEdit: false, //是否启用双击编辑
+                singleSelect: false, //是否启用单选
                 extend: {
                     index_url: 'task/index' + location.search,
                     add_url: 'task/add',

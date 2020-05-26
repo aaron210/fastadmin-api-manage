@@ -248,7 +248,7 @@ class Task extends Backend
     }
 
     // 生成缓存
-    private function makeRedisCache(){
+    public function makeRedisCache(){
 
         $task = Model("task")->select();
         $task = collection($task)->toArray();
@@ -272,7 +272,7 @@ class Task extends Backend
 
                 // 生成缓存
                 $redis->hset("projet:" . $provincePinyin, $v['id'], json_encode($v));
-                $redis->set("channel:" . $v['channel_number'], json_encode($v)); // 以通道ID来命名的缓存
+                $redis->set("channel:" . $v['channel_number'] . ":" . $provincePinyin, json_encode($v)); // 以通道ID来命名的缓存
 
             }
         }

@@ -113,13 +113,48 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'table', 'echarts', 'echart
                     url: "/admin/dashboard/data",
                     success: function (data) {
                         $("#total_visits").html(data.data.total_visits);
+                        $("#total_output_today").html(data.data.total_output_today);
                     }, error: function () {
 
                     }
                 });
             }, 2000);
 
+            this.dataEcharts();
+
+        },
+
+        /**
+         * 日期显示数据统计
+         */
+        dataEcharts: function () {
+
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = Echarts.init(document.getElementById('date_echart'), 'walden');
+
+            var option = {
+                xAxis: {
+                    type: 'category',
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [120, 200, 150, 80, 70, 110, 130],
+                    type: 'bar',
+                    showBackground: true,
+                    backgroundStyle: {
+                        color: 'rgba(220, 220, 220, 0.8)'
+                    }
+                }]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+
         }
+
     };
 
     return Controller;
