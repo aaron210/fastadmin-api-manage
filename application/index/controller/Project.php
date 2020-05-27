@@ -119,7 +119,7 @@ class Project extends Frontend
         if($channel_number){
 
             // 转换拼音
-            $PinyinLogic = Model('Pinyin', 'logic');
+            $PinyinLogic = Model('Pinyin', 'logic', false, "index");
             $provincePinyin = $PinyinLogic->encode($province,'all');
 
             // 生成缓存
