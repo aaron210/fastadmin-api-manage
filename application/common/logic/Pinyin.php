@@ -1,14 +1,14 @@
 <?php
 
 
-namespace app\index\Logic;
+namespace app\common\logic;
 
 use think\Model;
 
 /**
  * 原文链接：https://blog.csdn.net/huangzhixue/article/details/54409602
  * Class chinaPyCtrl
- * @package app\index\Logic
+ * @package app\admin\logic
  */
 class Pinyin extends Model
 {
@@ -16,6 +16,7 @@ class Pinyin extends Model
      * 拼音字符转换图
      * @var array
      */
+
     private $_aMaps = array(
         'a' => -20319, 'ai' => -20317, 'an' => -20304, 'ang' => -20295, 'ao' => -20292,
         'ba' => -20283, 'bai' => -20265, 'ban' => -20257, 'bang' => -20242, 'bao' => -20230, 'bei' => -20051, 'ben' => -20036,

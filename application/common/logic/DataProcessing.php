@@ -1,6 +1,6 @@
 <?php
 
-namespace app\fee\Logic;
+namespace app\common\Logic;
 
 use think\Model;
 

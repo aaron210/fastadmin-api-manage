@@ -63,7 +63,7 @@ class Resources extends Controller
     public function update(){
 
         // 数据统计
-        $StatisticsLogic = Model("Statistics","Logic");
+        $StatisticsLogic = Model("Statistics","logic");
         $StatisticsLogic->run();
 
         // 明天时间

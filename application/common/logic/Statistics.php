@@ -1,6 +1,6 @@
 <?php
 
-namespace app\common\Logic;
+namespace app\common\logic;
 
 use think\Cache;
 use think\Model;
