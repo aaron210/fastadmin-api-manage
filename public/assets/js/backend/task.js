@@ -57,6 +57,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                 return value + "%";
                             }
                         },
+                        {field: 'weight', title: __('权重')},
                         // {field: 'charge_type', title: __('计费类型'),formatter:function (value, row, index) {
                         //         if(value=="1"){
                         //             return '短信';

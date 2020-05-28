@@ -31,6 +31,14 @@
     </div>
 
     <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">权重:</label>
+        <div class="col-xs-12 col-sm-2">
+            <input id="weight" class="form-control" style="text-align: center;" name="row[weight]" type="text" value="100" data-rule="required;integer[+0];">
+        </div>
+        <span class="help-block">说明:权重越高,越提前执行</span>
+    </div>
+
+    <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">输出比例:</label>
         <div class="col-xs-12 col-sm-2">
             <input id="ratio" class="form-control" style="text-align: center;" name="row[ratio]" type="text" value="100" data-rule="required;integer[+0]; range[~100]">

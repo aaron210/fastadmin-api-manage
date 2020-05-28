@@ -77,7 +77,6 @@ class Task extends Backend
                 $value = $value > 0 ? $value : 0;
                 $list[$key]['channel_total_daily_num'] = $value;
 
-
             }
 
             $result = array("total" => $total, "rows" => $list);
@@ -263,15 +262,19 @@ class Task extends Backend
             $redis->del($v);
         }
 
+        $redis->del("projet:*");
+        $redis->del("channel:*");
+
         // 处理数据
         foreach($task as $v){
             if($v['province']!=""){
+
                 // 转换拼音
                 $PinyinLogic = Model('Pinyin', 'logic');
                 $provincePinyin = $PinyinLogic->encode($province[$v['province']]->province,'all');
 
                 // 生成缓存
-                $redis->hset("projet:" . $provincePinyin, $v['id'], json_encode($v));
+                $redis->zadd("projet:" . $provincePinyin, $v['weight'], json_encode($v));
                 $redis->set("channel:" . $v['channel_number'] . ":" . $provincePinyin, json_encode($v)); // 以通道ID来命名的缓存
 
             }

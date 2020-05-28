@@ -98,11 +98,12 @@ class Resources extends Controller
 
                 // 获取缓存
                 $redis = Cache::store('redis')->handler();
-                $projectList = $redis->hgetall("projet:" . $provincePinyin);
+                $projectList = $redis->zReverseRange("projet:" . $provincePinyin, 0, -1, true);
                 if ($projectList) {
                     foreach ($projectList as $key=>$v) {
-                        $id = $key;
-                        $item = json_decode($v);
+
+                        $item = json_decode($key);
+                        $id = $item->id;
 
                         if ($item->isstart == 1) { // 开关
 
@@ -220,7 +221,7 @@ class Resources extends Controller
 
         // 格式化数据
         $DataProcessing = Model('DataProcessing','logic');
-        $phone = '15919829113';
+        $phone = '13993299999';
         $phone = $DataProcessing->encodePhone($phone);
 
         dump($phone);
