@@ -24,6 +24,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
                 sortName: 'id',
+                pageSize: 50,
                 columns: [
                     [
                         {checkbox: true},
@@ -66,9 +67,32 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                         //     }
                         // },
 
-                        {field: 'sms', title: __('sms'),align: 'left'},
+                        {field: 'sms', title: __('sms'),formatter:function (value, row, index) {
+                                return "<a title='" + value + "'>查看</a>";
+                            }
+                        },
                         {field: 'remarks', title: __('备注')},
-                        {field: 'mtime', title: __('修改时间'), formatter: Table.api.formatter.datetime},
+                        {field: 'mtime', title: __('修改时间'), formatter:function (value, row, index) {
+                                var datetimeFormat = typeof this.datetimeFormat === 'undefined' ? 'YYYY-MM-DD HH:mm:ss' : this.datetimeFormat;
+                                if (isNaN(value)) {
+                                    value = value ? Moment(value).format(datetimeFormat) : __('None');
+                                } else {
+                                    value = value ? Moment(parseInt(value) * 1000).format(datetimeFormat) : __('None');
+                                }
+
+                                var nowTimestamp = new Date(new Date().toLocaleDateString()).getTime();
+                                var tagTimestamp = (new Date(value)).getTime();
+
+                                console.log(nowTimestamp);
+                                console.log(tagTimestamp);
+
+                                if (tagTimestamp > nowTimestamp) {
+                                    value = "<span style='color: red;'>" + value + "</span>";
+                                }
+
+                                return value;
+                            }
+                        },
                         {field: 'isstart', title: '开关',formatter:Table.api.formatter.toggle},
                         {field: 'copy', title: '复制',formatter:function (value, row, index) {
                                 return '<a href="javascript:void(0);" class="btn btn-xs copy" data-id="' + row['id'] + '"><i class="fa fa-copy"></i></a>';
