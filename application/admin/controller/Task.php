@@ -52,7 +52,7 @@ class Task extends Backend
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $total = $this->model
                 ->where($where)
-                //->order($sort, $order)
+                ->order($sort, $order)
                 ->count();
 
             $list = $this->model

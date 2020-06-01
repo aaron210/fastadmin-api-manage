@@ -51,14 +51,14 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                 return value + "-" + row['end_time'];
                             }
                         },
-                        {field: 'total_daily', title: __('每日总量')},
+                        {field: 'total_daily', title: __('每日总量'),sortable:true},
                         {field: 'total_daily_num', title: __('输出量')},
                         {field: 'channel_total_daily_num', title: __('回调量')},
                         {field: 'ratio', title: __('输出比例'),formatter:function (value, row, index) {
                                 return value + "%";
                             }
                         },
-                        {field: 'weight', title: __('权重')},
+                        {field: 'weight', title: __('权重'),sortable:true},
                         // {field: 'charge_type', title: __('计费类型'),formatter:function (value, row, index) {
                         //         if(value=="1"){
                         //             return '短信';
@@ -93,7 +93,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                 return value;
                             }
                         },
-                        {field: 'isstart', title: '开关',formatter:Table.api.formatter.toggle},
+                        {field: 'isstart', title: '开关',formatter:Table.api.formatter.toggle,sortable:true},
                         {field: 'copy', title: '复制',formatter:function (value, row, index) {
                                 return '<a href="javascript:void(0);" class="btn btn-xs copy" data-id="' + row['id'] + '"><i class="fa fa-copy"></i></a>';
                             }
