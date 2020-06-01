@@ -18,7 +18,7 @@ return [
     // 应用命名空间
     'app_namespace'          => 'app',
     // 应用调试模式
-    'app_debug'              => Env::get('app.debug', true),
+    'app_debug'              => Env::get('app.debug', false),
     // 应用Trace
     'app_trace'              => Env::get('app.trace', false),
     // 应用模式状态
@@ -163,7 +163,8 @@ return [
         'path'  => LOG_PATH,
         // 日志记录级别
         'level' => [],
-        'file_size'     =>2097152,
+        // 文件大小
+        'file_size' =>209715200,
     ],
     // +----------------------------------------------------------------------
     // | Trace设置 开启 app_trace 后 有效
@@ -184,9 +185,8 @@ return [
         'prefix' => '',
         // 缓存有效期 0表示永久缓存
         'expire' => 0,
-
         // 密码
-        //'password' => 'test123'
+        'password' => 'test123'
     ],
     // +----------------------------------------------------------------------
     // | 会话设置
