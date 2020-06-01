@@ -134,11 +134,91 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
             Controller.api.bindevent();
             this.preview();
         },
+        statistics: function(){
+            // 初始化表格参数配置
+            Table.api.init({
+                clickToSelect: false, //是否启用点击选中
+                dblClickToEdit: false, //是否启用双击编辑
+                singleSelect: false, //是否启用单选
+                extend: {
+                    index_url: 'task/statistics' + location.search,
+                },
+                queryParams: function (params) {
+                    var filter = params.filter ? JSON.parse(params.filter) : {}; //判断当前是否还有其他高级搜索栏的条件
+                    var op = params.op ? JSON.parse(params.op) : {};  //并将搜索过滤器 转为对象方便我们追加条件
+
+                    var filter_date = filter.date;
+                    var op_date = op.date;
+                    delete filter.date;
+                    delete op.date;
+
+                    params.filter = JSON.stringify(filter); //将搜索过滤器和操作方法 都转为JSON字符串
+                    params.op = JSON.stringify(op);
+                    params.date = filter_date;
+                    return params;
+                }
+            });
+
+            var table = $("#table");
+
+            // 初始化表格
+            table.bootstrapTable({
+                url: $.fn.bootstrapTable.defaults.extend.index_url,
+                pk: 'id',
+                sortName: 'id',
+                pageSize: 50,
+                search:true,
+                searchFormVisible: true,
+                columns: [
+                    [
+                        {checkbox: true},
+                        {field: 'id', title: __('Id'), operate: false},
+                        {field: 'project_id', title: __('Project_id'), searchList: projectArr, formatter:function(value, row, index){
+                                return projectArr[value];
+                            }},
+                        {field: 'name', title: __('Name'), operate: false},
+                        {field: 'province', title: __('省份'),formatter:function (value, row, index) {
+                                if(value>=0){
+                                    return province[value];
+                                }
+                                return value;
+                            }
+                        },
+                        {field: 'total_daily_num', title: __('输出量'), operate: false},
+                        {field: 'channel_total_daily_num', title: __('回调量'), operate: false},
+                        {field: 'date', title: __('日期'), operate: 'RANGE', addclass: 'datetimepicker',extend:"data-date-format='YYYYMMDD' data-date-max-date='"+date+"'", formatter: Table.api.formatter.datetime, visible: false},
+                    ]
+                ]
+            });
+
+            // 为表格绑定事件
+            Table.api.bindevent(table);
+
+            var _this = this;
+            //当表格数据加载完成时
+            table.on('load-success.bs.table', function (e, data) {
+                $(".copy").click(function(){
+                    var _this = this;
+                    Layer.confirm(__('确认复制?'), function () {
+                        var id = $(_this).attr("data-id");
+                        $.ajax({
+                            url: "/admin/task/copy", data: {id: id}, success: function (data) {
+                                if (data.code == 200) {
+                                    Layer.closeAll();
+                                    table.bootstrapTable('refresh');
+                                }
+                            }
+                        });
+                    });
+                });
+            });
+        },
         api: {
             bindevent: function () {
                 Form.api.bindevent($("form[role=form]"));
             }
         },
+
 
         // 预览加载
         preview: function(){

@@ -52,12 +52,13 @@ class Task extends Backend
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $total = $this->model
                 ->where($where)
-                ->order($sort, $order)
+                //->order($sort, $order)
                 ->count();
 
             $list = $this->model
                 ->where($where)
-                ->order($sort, $order)
+                //->order($sort, $order)
+                ->order("isstart desc,mtime desc")
                 ->limit($offset, $limit)
                 ->select();
 
@@ -312,6 +313,63 @@ class Task extends Backend
             return ["code"=>200];
         }
         return ["code"=>100];
+    }
+
+    /**
+     * 数据统计
+     */
+    public function statistics(){
+        //设置过滤方法
+        $this->request->filter(['strip_tags']);
+        if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
+            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+            $total = $this->model
+                ->where($where)
+                //->order($sort, $order)
+                ->count();
+
+            $list = $this->model
+                ->where($where)
+                //->order($sort, $order)
+                ->order("isstart desc,mtime desc")
+                ->limit($offset, $limit)
+                ->select();
+
+            $list = collection($list)->toArray();
+
+            // 生成缓存
+            $redis = Cache::store('redis')->handler();
+            $date = $this->request->get("date",date("Ymd"));
+            foreach($list as $key=>$v){
+
+                // 获取输出量
+                $value = $redis->hget("total_daily:" . $v['id'], $date);
+                $value = $value > 0 ? $value : 0;
+                $list[$key]['total_daily_num'] = $value;
+
+                // 获取响应量
+                $value = $redis->hget("channel_total_daily:" . $v['id'], $date);
+                $value = $value > 0 ? $value : 0;
+                $list[$key]['channel_total_daily_num'] = $value;
+
+            }
+
+            $result = array("total" => $total, "rows" => $list);
+
+            return json($result);
+        }
+
+        $province = Model("Hdcx")->getProvince();
+        $province = array_column($province, 'province');
+        $this->view->assign("province", json_encode($province)); // 获取省份
+        $this->view->assign("date", date("Y-m-d")); // 获取省份
+
+        $this->assign("projectData",Model("Project")->getProjectData());
+        return $this->view->fetch();
     }
 
 }
