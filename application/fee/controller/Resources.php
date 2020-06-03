@@ -3,9 +3,18 @@ namespace app\fee\controller;
 
 use think\Cache;
 use think\Controller;
+use think\Log;
+use think\Request;
 
 class Resources extends Controller
 {
+
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->prefix = "";
+    }
+
     public function index()
     {
         return "123555";
@@ -62,6 +71,8 @@ class Resources extends Controller
      */
     public function update(){
 
+        $prefix = "";
+
         // 数据统计
         $StatisticsLogic = Model("Statistics","logic");
         $StatisticsLogic->run();
@@ -80,8 +91,11 @@ class Resources extends Controller
             $DataProcessing = Model('DataProcessing', 'logic');
             $phone = $DataProcessing->formatPhoneNumber($data['flag1']);
 
+            Log::record('手机号码为:'.$phone);
+
             // 查找归属地
             $res = Model("Hdcx")->checkProvinceByPhone($phone);
+            Log::record('Hdcx:' . json_encode($res));
             if ($res) {
 
                 /** 手动任务 **/
@@ -91,6 +105,13 @@ class Resources extends Controller
 //                }
 
                 /** 系统任务 **/
+
+                Log::record('所属省份:'.$res->province);
+
+                $prefix .= "[".$res->province."]";
+                $this->prefix = $prefix;
+
+                Log::record($prefix.'手机号码为:'.$phone);
 
                 // 转换拼音
                 $PinyinLogic = Model('Pinyin', 'logic');
@@ -102,6 +123,9 @@ class Resources extends Controller
                 if ($projectList) {
                     foreach ($projectList as $key=>$v) {
 
+                        Log::record($prefix.'执行项目开始');
+                        Log::record($prefix.'项目参数:'.$key);
+
                         $item = json_decode($key);
                         $id = $item->id;
 
@@ -112,14 +136,17 @@ class Resources extends Controller
                             $end_time = $item->end_time;
                             $nowHiTime = (date("H:i"));
                             if ($start_time == null || $end_time == null) {  // 时间为空
+                                Log::record($prefix.'时间为空');
                                 continue;
                             } elseif ($nowHiTime < $start_time || $nowHiTime > $end_time) { // 不在有效时间
+                                Log::record($prefix.'不在有效时间');
                                 continue;
                             }
 
                             // 黑名单
                             $blacklist_city = explode(",", $item->blacklist_city);
                             if (in_array($res->city, $blacklist_city)) {
+                                Log::record($prefix.'黑名单城市:' . $res->city);
                                 continue;
                             }
 
@@ -137,6 +164,8 @@ class Resources extends Controller
 
                                 // 如果生成成功才记录日志则不返回
                                 if($getRedis){
+
+                                    Log::record($prefix.'没有输出过');
 
                                     $redis->expire($getKey, $tomorrow - time());
 
@@ -160,17 +189,26 @@ class Resources extends Controller
                                     // 输出总数
                                     $StatisticsLogic->total_output_today();
 
+                                }else{
+                                    Log::record($prefix.'已输出过');
                                 }
-
+                                Log::record($prefix.'满足条件输出项目ID:'.$id);
+                                Log::record($prefix.'满足条件输出内容:'.$sms);
                                 return $sms;
                             }
 
+                        }else{
+                            Log::record($prefix.'该任务已关闭');
                         }
                     }
                 }
             }
+            else{
+                Log::record($prefix.'Hdcx:没有信息');
+            }
         }
 
+        Log::record($prefix.'操作结束交回上级处理');
         return "123";
     }
 
@@ -181,10 +219,21 @@ class Resources extends Controller
      */
     private function checkRatio($id, $ratio)
     {
+        $prefix = $this->prefix;
+        Log::record($prefix.'比例计算开始id:' . $id . "|ratio:" . $ratio);
+
         $redisKey = "ratio:" . $id;
         $redis = Cache::store('redis')->handler();
         $num = $redis->hget($redisKey, date("Y-m-d")); // 获取当前排序
+
+        Log::record($prefix.'获取:' . $redisKey . ":" . $num);
+
         $num = $num > 0 ? $num : 0;
+
+        // 特殊规则
+        if($ratio==50){
+            return $this->fiftyRatio($id);
+        }
 
         // 如果小于等于比例则输出
         if($ratio==0){
@@ -201,7 +250,27 @@ class Resources extends Controller
             $redis->hincrby($redisKey, date("Y-m-d"),1); // 自增1
         }
 
+        Log::record($prefix.'比例计算结束');
         return $status;
+    }
+
+    /**
+     * 50%规则
+     */
+    private function fiftyRatio($id)
+    {
+        $prefix = $this->prefix;
+        Log::record($prefix.'ratio50:' . $id);
+        $redisKey = "ratio50:项目ID" . $id;
+        $redis = Cache::store('redis')->handler();
+        $num = $redis->hget($redisKey, date("Y-m-d")); // 获取当前排序
+        if ($num == 1) {
+            $redis->hset($redisKey, date("Y-m-d"), 0);
+        } else {
+            $redis->hset($redisKey, date("Y-m-d"), 1);
+        }
+        Log::record($prefix.'ratio50:输出内容:' . $num);
+        return $num;
     }
 
     /**
@@ -214,14 +283,14 @@ class Resources extends Controller
 
         // 格式化数据
         $DataProcessing = Model('DataProcessing','logic');
-        $phone = 'ehwwhwdh';
+        $phone = 'iwhhhhdssheaoel';
         $phone = $DataProcessing->decodePhone($phone);
 
         dump($phone);
 
         // 格式化数据
         $DataProcessing = Model('DataProcessing','logic');
-        $phone = '13993299999';
+        $phone = '15511151551';
         $phone = $DataProcessing->encodePhone($phone);
 
         dump($phone);
