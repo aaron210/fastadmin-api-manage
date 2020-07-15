@@ -261,7 +261,7 @@ class Resources extends Controller
     {
         $prefix = $this->prefix;
         Log::record($prefix.'ratio50:' . $id);
-        $redisKey = "ratio50:项目ID" . $id;
+        $redisKey = "ratio50:" . $id;
         $redis = Cache::store('redis')->handler();
         $num = $redis->hget($redisKey, date("Y-m-d")); // 获取当前排序
         if ($num == 1) {
