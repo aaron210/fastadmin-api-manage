@@ -22,9 +22,9 @@ class Dashboard extends Backend
     {
         $redis = Cache::store('redis')->handler();
 
-        $seventtime = \fast\Date::unixtime('day', -12);
+        $seventtime = \fast\Date::unixtime('day', -24);
         $paylist = $createlist = [];
-        for ($i = 0; $i <= 12; $i++)
+        for ($i = 0; $i <= 24; $i++)
         {
             $day = date("Y-m-d", $seventtime + ($i * 86400));
             $visits[$day] = (int)($redis->hget("statistics:total_visits",$day) ?: 0);
