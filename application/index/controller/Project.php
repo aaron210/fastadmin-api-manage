@@ -129,6 +129,10 @@ class Project extends Frontend
                 $task = json_decode($task,true);
                 $redis->hincrby("channel_total_daily:" . $task['id'], date("Ymd"), 1); // 加一日志
             }
+
+            // 记录当日总数
+            $StatisticsLogic = Model("Statistics","logic");
+            $StatisticsLogic->total_return_today();
         }
 
     }

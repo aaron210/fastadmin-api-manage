@@ -177,7 +177,7 @@
                         <div class="sm-st clearfix">
                             <span class="sm-st-icon st-violet"><i class="fa fa-book"></i></span>
                             <div class="sm-st-info">
-                                <span>{$total_output_today|default='0'}</span>
+                                <span id="total_output_today">{$total_output_today|default='0'}</span>
                                 {:__('今日输出总数')}
                             </div>
                         </div>
@@ -186,7 +186,7 @@
                         <div class="sm-st clearfix">
                             <span class="sm-st-icon st-blue"><i class="fa fa-shopping-bag"></i></span>
                             <div class="sm-st-info">
-                                <span>{$totalorder}</span>
+                                <span id="total_return_today">{$total_return_today|default='0'}</span>
                                 {:__('今日回调总数')}
                             </div>
                         </div>
@@ -194,171 +194,114 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-8">
-                        <div id="echart" style="height:200px;width:100%;"></div>
-                        <div id="date_echart" style="height:200px;width:100%;"></div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card sameheight-item stats">
-                            <div class="card-block">
-                                <div class="row row-sm stats-container">
-                                    <div class="col-xs-6 stat-col">
-                                        <div class="stat-icon"><i class="fa fa-rocket"></i></div>
-                                        <div class="stat">
-                                            <div class="value"> {$todayusersignup}</div>
-                                            <div class="name"> {:__('Today user signup')}</div>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" style="width: 30%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 stat-col">
-                                        <div class="stat-icon"><i class="fa fa-shopping-cart"></i></div>
-                                        <div class="stat">
-                                            <div class="value"> {$todayuserlogin}</div>
-                                            <div class="name"> {:__('Today user login')}</div>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" style="width: 25%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6  stat-col">
-                                        <div class="stat-icon"><i class="fa fa-line-chart"></i></div>
-                                        <div class="stat">
-                                            <div class="value"> {$todayorder}</div>
-                                            <div class="name"> {:__('Today order')}</div>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" style="width: 25%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6  stat-col">
-                                        <div class="stat-icon"><i class="fa fa-users"></i></div>
-                                        <div class="stat">
-                                            <div class="value"> {$unsettleorder}</div>
-                                            <div class="name"> {:__('Unsettle order')}</div>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" style="width: 25%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6  stat-col">
-                                        <div class="stat-icon"><i class="fa fa-list-alt"></i></div>
-                                        <div class="stat">
-                                            <div class="value"> {$sevendnu}</div>
-                                            <div class="name"> {:__('Seven dnu')}</div>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" style="width: 25%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6 stat-col">
-                                        <div class="stat-icon"><i class="fa fa-dollar"></i></div>
-                                        <div class="stat">
-                                            <div class="value"> {$sevendau}</div>
-                                            <div class="name"> {:__('Seven dau')}</div>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success" style="width: 25%"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row" style="margin-top:15px;">
-
                     <div class="col-lg-12">
-                    </div>
-                    <div class="col-xs-6 col-md-3">
-                        <div class="panel bg-blue">
-                            <div class="panel-body">
-                                <div class="panel-title">
-                                    <span class="label label-success pull-right">{:__('Real time')}</span>
-                                    <h5>{:__('Category count')}</h5>
-                                </div>
-                                <div class="panel-content">
-                                    <h1 class="no-margins">1234</h1>
-                                    <div class="stat-percent font-bold text-gray"><i class="fa fa-commenting"></i> 1234</div>
-                                    <small>{:__('Category count tips')}</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-md-3">
-                        <div class="panel bg-aqua-gradient">
-                            <div class="panel-body">
-                                <div class="ibox-title">
-                                    <span class="label label-info pull-right">{:__('Real time')}</span>
-                                    <h5>{:__('Attachment count')}</h5>
-                                </div>
-                                <div class="ibox-content">
-                                    <h1 class="no-margins">1043</h1>
-                                    <div class="stat-percent font-bold text-gray"><i class="fa fa-modx"></i> 2592</div>
-                                    <small>{:__('Attachment count tips')}</small>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="container" style="height: 500px"></div>
+                        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+                        <script type="text/javascript">
+
+                            var Orderdata = {
+                                column: {:json_encode(array_keys($visits))},
+                                visits: {:json_encode(array_values($visits))},
+                                output: {:json_encode(array_values($output))},
+                                return: {:json_encode(array_values($return))}
+                            };
+
+                            console.log(Orderdata.visits);
+
+                            var dom = document.getElementById("container");
+                            var myChart = echarts.init(dom);
+                            var app = {};
+                            option = null;
+                            option = {
+                                title: {
+                                    text: '数据统计'
+                                },
+                                tooltip: {
+                                    trigger: 'axis',
+                                    axisPointer: {
+                                        type: 'cross',
+                                        label: {
+                                            backgroundColor: '#6a7985'
+                                        }
+                                    }
+                                },
+                                legend: {
+                                    data: ['今日输出总数', '今日回调总数', '今日总访问数']
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                xAxis: [
+                                    {
+                                        type: 'category',
+                                        boundaryGap: false,
+                                        data: Orderdata.column
+                                    }
+                                ],
+                                yAxis: [
+                                    {
+                                        type: 'value',
+                                        max: function(value){
+                                            return parseInt(value.max * 1.5);
+                                        }
+                                    }
+                                ],
+                                series: [
+                                    {
+                                        name: '今日输出总数',
+                                        type: 'line',
+                                        stack: '总量',
+                                        label: {
+                                            normal: {
+                                                show: true
+                                            }
+                                        },
+                                        areaStyle: {},
+                                        data: Orderdata.output
+                                    },
+                                    {
+                                        name: '今日回调总数',
+                                        type: 'line',
+                                        stack: '总量',
+                                        label: {
+                                            normal: {
+                                                show: true
+                                            }
+                                        },
+                                        areaStyle: {},
+                                        data: Orderdata.return
+                                    },
+                                    {
+                                        name: '今日总访问数',
+                                        type: 'line',
+                                        stack: '总量',
+                                        label: {
+                                            normal: {
+                                                show: true,
+                                                position: 'top'
+                                            }
+                                        },
+                                        areaStyle: {},
+                                        data: Orderdata.visits
+                                    }
+                                ]
+                            };
+                            ;
+                            if (option && typeof option === "object") {
+                                myChart.setOption(option, true);
+                            }
+                        </script>
                     </div>
 
-                    <div class="col-xs-6 col-md-3">
-                        <div class="panel bg-purple-gradient">
-                            <div class="panel-body">
-                                <div class="ibox-title">
-                                    <span class="label label-primary pull-right">{:__('Real time')}</span>
-                                    <h5>{:__('Article count')}</h5>
-                                </div>
-                                <div class="ibox-content">
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h1 class="no-margins">1234</h1>
-                                            <div class="font-bold"><i class="fa fa-commenting"></i>
-                                                <small>{:__('Comment count')}</small>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h1 class="no-margins">6754</h1>
-                                            <div class="font-bold"><i class="fa fa-heart"></i>
-                                                <small>{:__('Like count')}</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-md-3">
-                        <div class="panel bg-green-gradient">
-                            <div class="panel-body">
-                                <div class="ibox-title">
-                                    <span class="label label-primary pull-right">{:__('Real time')}</span>
-                                    <h5>{:__('News count')}</h5>
-                                </div>
-                                <div class="ibox-content">
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h1 class="no-margins">5302</h1>
-                                            <div class="font-bold"><i class="fa fa-commenting"></i>
-                                                <small>{:__('Comment count')}</small>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h1 class="no-margins">8205</h1>
-                                            <div class="font-bold"><i class="fa fa-user"></i>
-                                                <small>{:__('Like count')}</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-
             </div>
             <div class="tab-pane fade" id="two">
                 <div class="row">
@@ -371,9 +314,5 @@
     </div>
 </div>
 <script>
-    var Orderdata = {
-        column: {:json_encode(array_keys($paylist))},
-        paydata: {:json_encode(array_values($paylist))},
-        createdata: {:json_encode(array_values($createlist))},
-    };
+
 </script>

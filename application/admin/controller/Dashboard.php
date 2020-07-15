@@ -20,14 +20,18 @@ class Dashboard extends Backend
      */
     public function index()
     {
-        $seventtime = \fast\Date::unixtime('day', -7);
+        $redis = Cache::store('redis')->handler();
+
+        $seventtime = \fast\Date::unixtime('day', -12);
         $paylist = $createlist = [];
-        for ($i = 0; $i < 7; $i++)
+        for ($i = 0; $i <= 12; $i++)
         {
             $day = date("Y-m-d", $seventtime + ($i * 86400));
-            $createlist[$day] = mt_rand(20, 200);
-            $paylist[$day] = mt_rand(1, mt_rand(1, $createlist[$day]));
+            $visits[$day] = (int)($redis->hget("statistics:total_visits",$day) ?: 0);
+            $output[$day] = (int)($redis->hget("statistics:total_output_today",$day) ?: 0);
+            $return[$day] = (int)($redis->hget("statistics:total_return_today",$day) ?: 0);
         }
+
         $hooks = config('addons.hooks');
         $uploadmode = isset($hooks['upload_config_init']) && $hooks['upload_config_init'] ? implode(',', $hooks['upload_config_init']) : 'local';
         $addonComposerCfg = ROOT_PATH . '/vendor/karsonzhang/fastadmin-addons/composer.json';
@@ -35,27 +39,18 @@ class Dashboard extends Backend
         $config = Config::get("composer");
         $addonVersion = isset($config['version']) ? $config['version'] : __('Unknown');
 
-        $redis = Cache::store('redis')->handler();
+
         $total_visits = $redis->hget("statistics:total_visits",date("Y-m-d"));  // 记录访问总数
         $total_output_today = $redis->hget("statistics:total_output_today",date("Y-m-d"));  // 记录输出总数
+        $total_return_today = $redis->hget("statistics:total_return_today",date("Y-m-d"));  // 记录回调总数
 
         $this->view->assign([
-            'totaluser'        => 35200,
-            'totalviews'       => 219390,
-            'totalorder'       => 32143,
-            'totalorderamount' => 174800,
-            'todayuserlogin'   => 321,
-            'todayusersignup'  => 430,
-            'todayorder'       => 2324,
-            'unsettleorder'    => 132,
-            'sevendnu'         => '80%',
-            'sevendau'         => '32%',
-            'paylist'          => $paylist,
-            'createlist'       => $createlist,
-            'addonversion'       => $addonVersion,
-            'uploadmode'       => $uploadmode,
+            'visits'          => $visits,
+            'output'       => $output,
+            'return'       => $return,
             'total_visits'     => $total_visits ?: 0,
             'total_output_today'     => $total_output_today ?: 0,
+            'total_return_today'     => $total_return_today ?: 0,
         ]);
 
         return $this->view->fetch();
@@ -69,11 +64,13 @@ class Dashboard extends Backend
         $redis = Cache::store('redis')->handler();
         $total_visits = $redis->hget("statistics:total_visits",date("Y-m-d"));  // 记录总数
         $total_output_today = $redis->hget("statistics:total_output_today",date("Y-m-d"));  // 记录输出总数
+        $total_return_today = $redis->hget("statistics:total_return_today",date("Y-m-d"));  // 记录回调总数
 
         // 数据
         $data = [
             "total_visits"           => $total_visits  ?: 0,
             'total_output_today'     => $total_output_today ?: 0,
+            'total_return_today'     => $total_return_today ?: 0,
         ];
 
         return ["code" => 200, "data" => $data];

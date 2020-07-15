@@ -25,4 +25,12 @@ class Statistics extends Model
         $redis->hincrby("statistics:total_output_today",date("Y-m-d"),1);  // 记录总数
     }
 
+    /**
+     * 回调总数
+     */
+    public function total_return_today(){
+        $redis = Cache::store('redis')->handler();
+        $redis->hincrby("statistics:total_return_today",date("Y-m-d"),1);  // 记录总数
+    }
+
 }
