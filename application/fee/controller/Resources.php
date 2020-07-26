@@ -83,19 +83,26 @@ class Resources extends Controller
         // 获取参数
         $data = input("get.");
 
+        // 格式化数据
+        $DataProcessing = Model('DataProcessing', 'logic');
+        $phone = $DataProcessing->formatPhoneNumber($data['flag1']);
+
+        Log::record('手机号码为:'.$phone);
+
+        // 查找归属地
+        $res = Model("Hdcx")->checkProvinceByPhone($phone);
+        Log::record('Hdcx:' . json_encode($res));
+
+        if ($res) {
+            // 省份统计
+            $StatisticsLogic = Model("Statistics", "logic");
+            $StatisticsLogic->set_province_statistics($res->province);
+        }
+
         // 当前时间(不允许0~7时操作)
         $now = date("H");
         if ($now >= 7) {
 
-            // 格式化数据
-            $DataProcessing = Model('DataProcessing', 'logic');
-            $phone = $DataProcessing->formatPhoneNumber($data['flag1']);
-
-            Log::record('手机号码为:'.$phone);
-
-            // 查找归属地
-            $res = Model("Hdcx")->checkProvinceByPhone($phone);
-            Log::record('Hdcx:' . json_encode($res));
             if ($res) {
 
                 /** 手动任务 **/

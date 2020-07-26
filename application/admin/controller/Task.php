@@ -372,4 +372,35 @@ class Task extends Backend
         return $this->view->fetch();
     }
 
+    public function province_statistics()
+    {
+        if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
+            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+
+            $date = $this->request->request("date",date("Y-m-d"));
+
+            // 生成缓存
+            $redis = Cache::store('redis')->handler();
+            $list = $redis->hgetall("statistics:province_statistics:" . $date);
+
+            $lists = [];
+            foreach($list as $key=>$v){
+                $lists[] = [
+                    "name" => $key,
+                    "total" => $v,
+                    "date" => $date,
+                ];
+            }
+
+            $result = array("total" => count($lists), "rows" => $lists);
+
+            return json($result);
+        }
+        return $this->view->fetch();
+    }
+
 }
