@@ -22,7 +22,7 @@ class Task extends Backend
      * @var \app\admin\model\Task
      */
     protected $model = null;
-    protected $multiFields = 'isstart';
+    protected $multiFields = 'isstart,issend';
 
     public function _initialize()
     {
@@ -277,7 +277,7 @@ class Task extends Backend
                 // 生成缓存
                 $redis->zadd("projet:" . $provincePinyin, $v['weight'], json_encode($v));
                 $redis->set("channel:" . $v['channel_number'] . ":" . $provincePinyin, json_encode($v)); // 以通道ID来命名的缓存
-
+                $redis->hset("sms", $v['sms'], $v['issend']);
             }
         }
     }

@@ -220,6 +220,39 @@ class Resources extends Controller
     }
 
     /**
+     * 用于检测是否需要输出到目标服务器
+     */
+    public function detector(){
+
+        $prefix = "";
+
+        // 获取参数
+        $data = input("get.");
+        $sms = $data['sms'];
+        Log::record($prefix . 'sms:' . $sms);
+
+        if ($sms) {
+
+            $sms = urldecode($sms);
+            Log::record($prefix . '解码后数据' . $sms);
+
+            $redis = Cache::store('redis')->handler();
+            $res = $redis->hget("sms", $sms);
+            if ($res == 1) {
+                Log::record($prefix . "允许推送到目标服务器");
+                return 456;
+            } else {
+                Log::record($prefix . '不允许推送到目标服务器');
+                return 789;
+            }
+
+        }
+
+        Log::record($prefix . '不准在默认输出');
+        return 456;
+    }
+
+    /**
      * 比例计算
      * @param $id
      * @return bool
