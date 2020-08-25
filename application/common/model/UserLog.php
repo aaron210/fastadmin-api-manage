@@ -5,9 +5,9 @@ namespace app\common\model;
 use think\Model;
 
 /**
- * 会员模型
+ * 会员日志模型
  */
-class User extends Model
+class UserLog extends Model
 {
 
 

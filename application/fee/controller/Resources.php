@@ -73,6 +73,10 @@ class Resources extends Controller
 
         $prefix = "";
 
+        // 检查用户
+        $UserLogic = Model("User","logic");
+        $UserLogic->checkUser();
+
         // 数据统计
         $StatisticsLogic = Model("Statistics","logic");
         $StatisticsLogic->run();
