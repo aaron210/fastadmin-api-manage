@@ -77,8 +77,6 @@ class Resources extends Controller
         $UserLogic = Model("User","logic");
         $user = $UserLogic->checkUser();
 
-        $this->checkProprice($user);
-
         // 数据统计
         $StatisticsLogic = Model("Statistics","logic");
         $StatisticsLogic->run();
@@ -167,48 +165,58 @@ class Resources extends Controller
                             $total = $redis->hget("total_daily:" . $id, date("Ymd"));
                             if ( ($total < $item->total_daily || $item->total_daily == 0) && $this->checkRatio($id, $item->ratio)) {
 
-                                // 短信模板
-                                $sms = str_replace("uid", $data['uid'], $item->sms);
+                                // 重置用户
+                                $user = $UserLogic->resetUser($user);
 
-                                // 去除重复日志
-                                $getKey = "log:" . $id . ":" . date("Ymd");
-                                $getData = md5(json_encode($data)); // 如果重复参数则不作记录
-                                $getRedis = $redis->hsetnx($getKey,$getData,date("Y-m-d H:i:s"));
+                                // 检测是否满足条件
+                                if ($this->checkProprice($user, $provincePinyin, $item->send_num)) {
 
-                                // 如果生成成功才记录日志则不返回
-                                if($getRedis){
+                                    // 更新扣费金额
+                                    $UserLogic->updatePrice($user, $item->send_num);
 
-                                    Log::record($prefix.'没有输出过');
+                                    // 短信模板
+                                    $sms = str_replace("uid", $data['uid'], $item->sms);
 
-                                    $redis->expire($getKey, $tomorrow - time());
+//                                    // 去除重复日志
+//                                    $getKey = "log:" . $id . ":" . date("Ymd");
+//                                    $getData = md5(json_encode($data)); // 如果重复参数则不作记录
+//                                    $getRedis = $redis->hsetnx($getKey,$getData,date("Y-m-d H:i:s"));
+//
+//                                    // 如果生成成功才记录日志则不返回
+//                                    if($getRedis){
 
-                                    // 记录日志
-                                    Model("Success")->insert([
-                                        "phone" => $phone,
-                                        "project_id" => $item->project_id,
-                                        "uid" => $data['uid'],
-                                        "flag2" => $data['flag2'],
-                                        "channel" => $data['channel'],
-                                        "version" => $data['version'],
-                                        "province" => $res->province,
-                                        "city" => $res->city,
-                                        "sms" => $sms,
-                                        "ctime" => date("Y-m-d H:i:s")
-                                    ]);
+                                        Log::record($prefix.'没有输出过');
 
-                                    // 计数器加一
-                                    $redis->hincrby("total_daily:" . $id, date("Ymd"), 1);
+//                                        $redis->expire($getKey, $tomorrow - time());
 
-                                    // 输出总数
-                                    $StatisticsLogic->total_output_today();
+                                        // 记录日志
+                                        Model("Success")->insert([
+                                            "phone" => $phone,
+                                            "project_id" => $item->project_id,
+                                            "uid" => $data['uid'],
+                                            "flag2" => $data['flag2'],
+                                            "channel" => $data['channel'],
+                                            "version" => $data['version'],
+                                            "province" => $res->province,
+                                            "city" => $res->city,
+                                            "sms" => $sms,
+                                            "ctime" => date("Y-m-d H:i:s")
+                                        ]);
 
-                                }else{
-                                    Log::record($prefix.'已输出过');
+                                        // 计数器加一
+                                        $redis->hincrby("total_daily:" . $id, date("Ymd"), 1);
+
+                                        // 输出总数
+                                        $StatisticsLogic->total_output_today();
+//
+//                                    }else{
+//                                        Log::record($prefix.'已输出过');
+//                                    }
+
+                                    Log::record($prefix.'满足条件输出项目ID:'.$id);
+                                    Log::record($prefix.'满足条件输出内容:'.$sms);
+                                    return $sms;
                                 }
-
-                                Log::record($prefix.'满足条件输出项目ID:'.$id);
-                                Log::record($prefix.'满足条件输出内容:'.$sms);
-                                return $sms;
                             }
 
                         }else{
@@ -376,11 +384,21 @@ class Resources extends Controller
     /**
      * @param $user
      */
-    private function checkProprice($user, $province)
+    private function checkProprice($user, $province, $send_num)
     {
         $redis = Cache::store('redis')->handler();
         $limitPrice = $redis->hget('proprice', $province); // 限制金额
-        
+        $monthPrice = $user['month_price'];                // 当月扣费金额
+        $price = $send_num;                                // 本次扣费金额
+        if ($limitPrice - $monthPrice - $price >= 0) {
+            // 本次可以扣费
+            Log::record('该用户满足扣费条件');
+            return true;
+        } else {
+            // 本次扣费不足
+            Log::record('该用户扣费金额不足');
+            return false;
+        }
 
     }
 

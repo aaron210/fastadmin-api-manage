@@ -62,10 +62,14 @@ class User extends Model
     }
 
     /**
-     * 根据任务ID，查询用户
+     * 更新扣费金额
+     * @param $user
+     * @param $price
+     * @return int|true
+     * @throws \think\Exception
      */
-    public function checkUserTask(){
-
+    public function updatePrice($user,$price){
+        return Model('User')->where(["key" => $user['key']])->setInc('month_price', $price);
     }
 
 }
