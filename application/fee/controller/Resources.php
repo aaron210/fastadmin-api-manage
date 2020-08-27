@@ -388,6 +388,11 @@ class Resources extends Controller
     {
         $redis = Cache::store('redis')->handler();
         $limitPrice = $redis->hget('proprice', $province); // 限制金额
+        if(!$limitPrice){
+            // 没有设置规则不限制
+            Log::record('该用户满足扣费条件');
+            return true;
+        }
         $monthPrice = $user['month_price'];                // 当月扣费金额
         $price = $send_num;                                // 本次扣费金额
         if ($limitPrice - $monthPrice - $price >= 0) {
