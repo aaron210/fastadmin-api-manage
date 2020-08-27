@@ -75,7 +75,9 @@ class Resources extends Controller
 
         // 检查用户
         $UserLogic = Model("User","logic");
-        $UserLogic->checkUser();
+        $user = $UserLogic->checkUser();
+
+        $this->checkProprice($user);
 
         // 数据统计
         $StatisticsLogic = Model("Statistics","logic");
@@ -203,6 +205,7 @@ class Resources extends Controller
                                 }else{
                                     Log::record($prefix.'已输出过');
                                 }
+
                                 Log::record($prefix.'满足条件输出项目ID:'.$id);
                                 Log::record($prefix.'满足条件输出内容:'.$sms);
                                 return $sms;
@@ -369,6 +372,18 @@ class Resources extends Controller
 //        }
 //        return "123";
     }
+
+    /**
+     * @param $user
+     */
+    private function checkProprice($user, $province)
+    {
+        $redis = Cache::store('redis')->handler();
+        $limitPrice = $redis->hget('proprice', $province); // 限制金额
+        
+
+    }
+
 
     public function check(){
         for($i=1;$i<200;$i++){
