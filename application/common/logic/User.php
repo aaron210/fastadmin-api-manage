@@ -23,6 +23,7 @@ class User extends Model
             $key = md5(implode("", $data));
             $data['key'] = $key;
             $user = Model("User")->where(["key" => $key])->find();
+            $data['uid'] = urlencode($data['uid']);
 
             // 是否存在用户
             if (!$user) {
@@ -47,7 +48,7 @@ class User extends Model
      * 重置用户（月初才执行）
      */
     public function resetUser($user){
-        $lastMonth = date("m",strtotime($user['last_price_date']));
+        $lastMonth = date("m",empty($user['last_price_date']) ? time() : strtotime($user['last_price_date']));
         $nowMonth = date("m");
 
         // 如果不是当前月(重置用户信息)
