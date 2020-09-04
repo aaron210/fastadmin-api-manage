@@ -2,6 +2,7 @@
 
 namespace app\fee\model;
 
+use think\Cache;
 use think\Model;
 
 
@@ -31,6 +32,20 @@ class Hdcx extends Model
         $phone = substr($phone,0,7);
         $res = $this->where("phone", $phone)->find();
         return $res;
+    }
+
+    // 获取省份
+    public function getProvince(){
+        $cache = new Cache();
+        $province = $cache->get('province');
+        if(!$province){
+            $province = self::group("province")->field("province")->select();
+            $province = collection($province)->toArray();
+            $cache->set('province',json_encode($province));
+        }else{
+            $province = json_decode($province);
+        }
+        return $province;
     }
 
 }

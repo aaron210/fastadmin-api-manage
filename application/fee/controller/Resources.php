@@ -132,6 +132,9 @@ class Resources extends Controller
                 $redis = Cache::store('redis')->handler();
                 $projectList = $redis->zReverseRange("projet:" . $provincePinyin, 0, -1, true);
                 if ($projectList) {
+
+                    $province = Model("Hdcx")->getProvince();
+
                     foreach ($projectList as $key=>$v) {
 
                         Log::record($prefix.'执行项目开始');
@@ -139,6 +142,12 @@ class Resources extends Controller
 
                         $item = json_decode($key);
                         $id = $item->id;
+
+                        if($province[$item->province]->province != $res->province){
+                            Log::record($prefix.'目标省份:'.$res->province);
+                            Log::record($prefix.'项目省份:'.$province[$item->province]->province);
+                            continue;
+                        }
 
                         if ($item->isstart == 1) { // 开关
 
@@ -390,14 +399,14 @@ class Resources extends Controller
         $limitPrice = $redis->hget('proprice', $province); // 限制金额
         if(!$limitPrice){
             // 没有设置规则不限制
-            Log::record('该用户满足扣费条件');
+            Log::record('该用户满足扣费条件1');
             return true;
         }
         $monthPrice = $user['month_price'];                // 当月扣费金额
         $price = $send_num;                                // 本次扣费金额
         if ($limitPrice - $monthPrice - $price >= 0) {
             // 本次可以扣费
-            Log::record('该用户满足扣费条件');
+            Log::record('该用户满足扣费条件2');
             return true;
         } else {
             // 本次扣费不足
