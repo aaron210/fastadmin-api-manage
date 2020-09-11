@@ -122,6 +122,7 @@ class Resources extends Controller
                 $prefix .= "[".$res->province."]";
                 $this->prefix = $prefix;
 
+                Log::record($prefix . 'url:' . Request::instance()->url(true));
                 Log::record($prefix.'手机号码为:'.$phone);
 
                 // 转换拼音
@@ -267,7 +268,7 @@ class Resources extends Controller
                 return 456;
             } else {
                 Log::record($prefix . '不允许推送到目标服务器');
-                return 789;
+                return 456;
             }
 
         }
@@ -308,13 +309,13 @@ class Resources extends Controller
             $status = false;
         }
 
-        if ($num + 1 == 100) {
+        if ($num + 1 >= 100) { // 防止并发
             $redis->hset($redisKey, date("Y-m-d"),0);  // 如果大于100则还原为0
         }else{
             $redis->hincrby($redisKey, date("Y-m-d"),1); // 自增1
         }
 
-        Log::record($prefix.'比例计算结束');
+        Log::record($prefix.'比例计算结束:'.$status.'|ratio:'.$ratio);
         return $status;
     }
 
