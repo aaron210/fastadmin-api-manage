@@ -101,6 +101,13 @@ class Resources extends Controller
             // 省份统计
             $StatisticsLogic = Model("Statistics", "logic");
             $StatisticsLogic->set_province_statistics($res->province);
+
+            Log::record('isp:' . $res->isp);
+
+            if($res->isp != "移动"){
+                Log::record('用户所属为:' . $res->isp . "本次结束");
+                return;
+            }
         }
 
         // 当前时间(不允许0~7时操作)
@@ -225,6 +232,12 @@ class Resources extends Controller
 
                                     Log::record($prefix.'满足条件输出项目ID:'.$id);
                                     Log::record($prefix.'满足条件输出内容:'.$sms);
+
+//                                    header('Content-type: text/html; chartset=GB2312;charset=GB2312');
+//                                    $sms = mb_convert_encoding($sms,"GBK","UTF-8");
+//                                    echo $sms;
+//                                    exit();
+
                                     return $sms;
                                 }
                             }
