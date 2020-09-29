@@ -102,12 +102,11 @@ class Resources extends Controller
             $StatisticsLogic = Model("Statistics", "logic");
             $StatisticsLogic->set_province_statistics($res->province);
 
-            Log::record('isp:' . $res->isp);
-
-            if($res->isp != "移动"){
-                Log::record('用户所属为:' . $res->isp . "本次结束");
-                return;
-            }
+//            Log::record('isp:' . $res->isp);
+//            if($res->isp != "移动"){
+//                Log::record('用户所属为:' . $res->isp . "本次结束");
+//                return;
+//            }
         }
 
         // 当前时间(不允许0~7时操作)
@@ -125,6 +124,7 @@ class Resources extends Controller
                 /** 系统任务 **/
 
                 Log::record('所属省份:'.$res->province);
+                Log::record('所属城市:'.$res->city);
 
                 $prefix .= "[".$res->province."]";
                 $this->prefix = $prefix;
@@ -176,6 +176,15 @@ class Resources extends Controller
                             if (in_array($res->city, $blacklist_city)) {
                                 Log::record($prefix.'黑名单城市:' . $res->city);
                                 continue;
+                            }
+
+                            // 判断运营商
+                            $operators = ["yidong"=>"移动","liantong"=>"联通"];
+                            if($res->isp != $operators[$item->operators]){
+                                Log::record($prefix.'不是对应的运营商:' . $res->isp);
+                                continue;
+                            }else{
+                                Log::record($prefix.'满足运营商要求:' . $res->isp ."|next");
                             }
 
                             // 获取限制数量(0为一直执行)
@@ -368,7 +377,7 @@ class Resources extends Controller
 
         // 格式化数据
         $DataProcessing = Model('DataProcessing','logic');
-        $phone = '13800433500';
+        $phone = '13058200000';
         $phone = $DataProcessing->encodePhone($phone);
 
         dump($phone);

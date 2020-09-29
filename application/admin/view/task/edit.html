@@ -76,9 +76,11 @@
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">运营商:</label>
         <div class="col-xs-12 col-sm-8">
-            <select class="selectpicker" name="row[operators]">
-                <option value="yidong">移动</option>
-            </select>
+<!--            <select class="selectpicker" name="row[operators]">-->
+<!--                <option value="yidong">移动</option>-->
+<!--                <option value="liantong">联通</option>-->
+                {:build_select('row[operators]', ["yidong"=>"移动","liantong"=>"联通"], $row.operators, ['class'=>'form-control selectpicker', 'multiple'=>'', 'data-rule'=>'required', 'data-max-options'=>1])}
+<!--            </select>-->
         </div>
     </div>
 

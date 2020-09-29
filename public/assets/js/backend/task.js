@@ -40,13 +40,15 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                 return value;
                             }
                         },
-                        // {field: 'operators', title: __('运营商'),formatter:function (value, row, index) {
-                        //         if(value=="yidong"){
-                        //             return '移动'
-                        //         }
-                        //         return value;
-                        //     }
-                        // },
+                        {field: 'operators', title: __('运营商'),formatter:function (value, row, index) {
+                                if(value=="yidong"){
+                                    return '移动';
+                                }else if(value=="liantong"){
+                                    return '联通';
+                                }
+                                return value;
+                            }
+                        },
                         {field: 'start_time', title: __('执行时间'),formatter:function (value, row, index) {
                                 return value + "-" + row['end_time'];
                             }
@@ -94,7 +96,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                             }
                         },
                         {field: 'isstart', title: '开关',formatter:Table.api.formatter.toggle,sortable:true},
-                        {field: 'issend', title: '是否推送',formatter:Table.api.formatter.toggle,sortable:true},
+                        // {field: 'issend', title: '是否推送',formatter:Table.api.formatter.toggle,sortable:true},
                         {field: 'copy', title: '复制',formatter:function (value, row, index) {
                                 return '<a href="javascript:void(0);" class="btn btn-xs copy" data-id="' + row['id'] + '"><i class="fa fa-copy"></i></a>';
                             }
