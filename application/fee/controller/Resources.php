@@ -200,8 +200,17 @@ class Resources extends Controller
                                     // 更新扣费金额
                                     $UserLogic->updatePrice($user, $item->send_num);
 
-                                    // 短信模板
+                                    // 短信模板(替换规则)
                                     $sms = str_replace("uid", $data['uid'], $item->sms);
+
+                                    // 动态替换短信规则
+                                    preg_match_all('/{(.*?)}/', $sms, $match);
+                                    if ($match) {
+                                        $matchData = $match[0];
+                                        foreach ($matchData as $key => $v) {
+                                            $sms = str_replace($v, rand(1, $match[1][$key]), $sms);
+                                        }
+                                    }
 
 //                                    // 去除重复日志
 //                                    $getKey = "log:" . $id . ":" . date("Ymd");
@@ -367,6 +376,16 @@ class Resources extends Controller
      * @return string
      */
     public function test(){
+
+        $text = "123123|{20}|{30}";
+        preg_match_all('/{(.*?)}/', $text, $match);
+        if($match){
+            $matchData = $match[0];
+            foreach($matchData as $key=>$v){
+                $text = str_replace($v,rand(1,$match[1][$key]),$text);
+            }
+        }
+        dump($text);
 
         // 格式化数据
         $DataProcessing = Model('DataProcessing','logic');

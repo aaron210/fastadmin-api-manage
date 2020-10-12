@@ -256,8 +256,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
             $(".makePreview").click(function(){
                 var data = $('.form-horizontal').serialize();
                 console.log(data);
-                $.ajax({url:"/admin/task/makePreview",data:data,async:false,success:function(data){
-                        $(".preview").html(data);
+                $.ajax({url:"/admin/task/makePreview",data:data,success:function(data){
+                    console.log(1231231)
+                        $(".preview").val(data);
                     }});
             });
         },
