@@ -56,6 +56,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                         {field: 'total_daily', title: __('每日总量'),sortable:true},
                         {field: 'total_daily_num', title: __('输出量')},
                         {field: 'channel_total_daily_num', title: __('回调量')},
+                        {field: 'conversion_rate', title: __('转化率'),formatter:function (value, row, index) {
+                                return row.total_daily_num > 0 ? Math.round(row.channel_total_daily_num/row.total_daily_num * 10000) / 100 + "%" : 0;
+                            }
+                        },
                         {field: 'ratio', title: __('输出比例'),formatter:function (value, row, index) {
                                 return value + "%";
                             }
