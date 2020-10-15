@@ -171,10 +171,17 @@ class Resources extends Controller
                                 continue;
                             }
 
-                            // 黑名单
+                            // 黑名单城市
                             $blacklist_city = explode(",", $item->blacklist_city);
                             if (in_array($res->city, $blacklist_city)) {
                                 Log::record($prefix.'黑名单城市:' . $res->city);
+                                continue;
+                            }
+
+                            // 黑名单频道
+                            $blacklist_channel = explode(",", $item->blacklist_channel);
+                            if (in_array($data['channel'], $blacklist_channel)) {
+                                Log::record($prefix.'黑名单频道:' . $data['channel']);
                                 continue;
                             }
 
